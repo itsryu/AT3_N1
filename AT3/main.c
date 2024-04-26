@@ -22,9 +22,14 @@ int main() {
 		} else {
 			// to do: ler o arquivo e criar um menu;
 		}
+
+		// Liberando memória alocada;
+		free(guest);
 	}
 
+	// Fechando o arquivo e encerrando o programa;
 	fclose(file);
+	printf("Programa encerrado com sucesso!\n");
 
 	return 0;
 }
