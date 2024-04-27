@@ -5,26 +5,33 @@
 
 #include "guest.h"
 
-int main() {
+int main(void) {
 	configEnviroment();
 
 	FILE* file = fopen(FILE_PATH, "r");
 
 	if(file == NULL) {
-		printf("Não foi possível criar o arquivo. Encerrando o programa...\n");
+		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
-		Room* guest = (Room*) malloc(ROOMS * sizeof(Room));
+		Room* room = (Room*) malloc(ROOMS * sizeof(Room));
 
-		if(guest == NULL) {
+		if(room == NULL) {
 			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
 			exit(1);
 		} else {
-			// to do: ler o arquivo e criar um menu;
+			int num = 0;
+			// Lendo o arquivo e salvando as informações na struct Room;
+			readFile(file, room, &num);
+
+			// TODO: criar um menu interativo;
+
+			// Exibindo os dados da struct;
+			showRooms(room, num);
 		}
 
 		// Liberando memória alocada;
-		free(guest);
+		free(room);
 	}
 
 	// Fechando o arquivo e encerrando o programa;
@@ -34,8 +41,47 @@ int main() {
 	return 0;
 }
 
-static void readFile(FILE* file) {
-	// to do: implementar a leitura do arquivo (analisar a melhor forma de fazer isso);
+static void readFile(FILE* file, Room* room, int* num) {
+	while(fscanf(file, "%d;%[^;\n]", &room[*num].number, room[*num].status) != EOF) {
+		room[*num].guestSize = 0;
+
+		while(fscanf(file, ";%[^;\n]\n", room[*num].guest[room[*num].guestSize].name) == 1) {
+			room[*num].guestSize++;
+
+			if(room[*num].guestSize >= 4) break;
+		}
+
+		(*num)++;
+	}
+}
+
+static void saveFile(FILE* file, Room* room) {
+	file = fopen(FILE_PATH, "w");
+
+	if(file == NULL) {
+		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
+		exit(1);
+	} else {
+		// TODO: criar lógica para salvar as modificações da struct Room no arquivo;
+	}
+}
+
+// Exibe informações da struct;
+static void showRooms(Room* room, int num) {
+	for(int i = 0; i < num; i++) {
+		printf("Nº: %d\n", room[i].number);
+		printf("Status: %s\n", room[i].status);
+		printf("Nº de hóspedes: %d\n", room[i].guestSize);
+
+		if(room[i].guestSize > 0) {
+			printf("Hóspedes:\n");
+			for(int j = 0; j < room[i].guestSize; j++) {
+				printf(" - %s\n", room[i].guest[j].name);
+			}
+		}
+
+		printf("\n====================\n\n");
+	}
 }
 
 static void clearScreen() {

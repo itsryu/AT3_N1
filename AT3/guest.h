@@ -12,10 +12,13 @@ typedef struct {
 
 typedef struct {
 	int number;
-	Guest *guest;
-	int status;
+	char status[11];
+	Guest guest[4];
+	int guestSize;
 } Room;
 
 static void configEnviroment();
 static void clearScreen();
-static void readFile(FILE* file);
+static void readFile(FILE* file, Room* room, int* num);
+static void saveFile(FILE* file, Room* room);
+static void showRooms(Room* room, int num);
