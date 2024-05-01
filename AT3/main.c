@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <string.h>
 
 #include "guest.h"
 
@@ -20,12 +21,10 @@ int main(void) {
 			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
 			exit(1);
 		} else {
-			int qtdDeQuartos = 0, opcao = 0;
+			int qtdDeQuartos = 0;
 			// Lendo o arquivo e salvando as informações na struct Room;
 			readFile(file, room, &qtdDeQuartos);
-
-			// TODO: criar um menu interativo;
-			menu(opcao);
+			menu(room, &qtdDeQuartos);
 		}
 
 		// Liberando memória alocada;
@@ -97,18 +96,25 @@ static void configEnviroment() {
 	system("title Gerenciamento de Hotel");
 }
 
-static void menu(int x) {
+static void menu(Room* room, int* qtdDeQuartos) {
+	int opcao;
+
 	do {
+		clearScreen();
 		printf("1. Inserir hóspedes em um quarto vazio\n2. Listar hóspedes por ordem alfabética\n3. Buscar hóspede\n");
-		printf("4. Editar hóspede\n5. Liberar um quarto\n6. Mostrar os números dos quartos vazios\n7. Salvar lista de hóspedes com respectivos quartos em arquivo.\n");
+		printf("4. Editar hóspede\n5. Liberar um quarto\n6. Mostrar os números dos quartos vazios\n7. Salvar lista de hóspedes com respectivos quartos em arquivo.\n\n");
 		printf("Pressione 0 para sair do programa\n");
-		printf("Digite o numero da opcao desejada :");
-		scanf("%d", &x);
+		printf("Digite o numero da opcao desejada: ");
 
-		switch(x) {
+		while(scanf("%d", &opcao) != 1) {
+			printf("Opção inválida. Digite novamente: ");
+			while(getchar() != '\n');
+		}
+
+		switch(opcao) {
 			case 1: 
+				adicionarHospede(room, *qtdDeQuartos);
 				break;
-
 			case 2:
 				printf("xxx\n");
 				// funcionalidade aqui;
@@ -143,14 +149,22 @@ static void menu(int x) {
 				printf("Opção inválida!\n");
 				break;
 		}
-	} while(x != 0);
+	} while(opcao != 0);
 }
 
-static void adicionarHospede() {
-	// TODO: Adicionar lógica para adicionar hóspede no quarto;
+static void exibirQuartosDisponiveis(Room* room, int qtdDeQuartos) {
+	printf("Quartos disponíveis:\n");
+	for(int i = 0; i < qtdDeQuartos; i++) {
+		if(strcmp(room[i].status, "Disponivel") == 0) {
+			printf("Quarto Nº: %d\n", room[i].number);
+		}
+	}
 }
 
-static int verificarDisponibilidade(Room* room, int qtdDeQuartos) {
+static void adicionarHospede(Room* room, int qtdDeQuartos) {
+	clearScreen();
+	exibirQuartosDisponiveis(room, qtdDeQuartos);
+
 	int numQuarto = 0;
 
 	printf("Insira o número do quarto: ");
@@ -158,10 +172,10 @@ static int verificarDisponibilidade(Room* room, int qtdDeQuartos) {
 		printf("Número inválido. Insira novamente: ");
 		while(getchar() != '\n');
 	}
-		
-	if(room[numQuarto].status == "Disponível") {
-		return 1;
+
+	if(strcmp(room[numQuarto].status, "Disponivel") == 0) {
+		// TODO: Adicionar lógica para adicionar hóspede no quarto;
 	} else {
-		return 0;
+		printf("Quarto não disponível, tente novamente.");
 	}
 }
