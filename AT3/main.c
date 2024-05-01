@@ -21,10 +21,10 @@ int main(void) {
 			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
 			exit(1);
 		} else {
-			int qtdDeQuartos = 0;
+			int qtdQuartos = 0;
 			// Lendo o arquivo e salvando as informações na struct Room;
-			readFile(file, room, &qtdDeQuartos);
-			menu(room, &qtdDeQuartos);
+			readFile(file, room, &qtdQuartos);
+			menu(room, &qtdQuartos);
 		}
 
 		// Liberando memória alocada;
@@ -53,14 +53,24 @@ static void readFile(FILE* file, Room* room, int* num) {
 	}
 }
 
-static void saveFile(FILE* file, Room* room) {
+static void saveFile(FILE* file, Room* room, int qtdQuartos) {
 	file = fopen(FILE_PATH, "w");
 
 	if(file == NULL) {
 		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
-		// TODO: criar lógica para salvar as modificações da struct Room no arquivo;
+		for(int i = 0; i < qtdQuartos; i++) {
+			if(room[i].number != 0) {
+				fprintf(file, "%d;%s", room[i].number, room[i].status);
+
+				for(int j = 0; j < room[i].guestSize; j++) {
+					fprintf(file, ";%s", room[i].guest[j].name);
+				}
+
+				fprintf(file, "\n");
+			}
+		}
 	}
 }
 
@@ -96,7 +106,7 @@ static void configEnviroment() {
 	system("title Gerenciamento de Hotel");
 }
 
-static void menu(Room* room, int* qtdDeQuartos) {
+static void menu(Room* room, int* qtdQuartos) {
 	int opcao;
 
 	do {
@@ -113,7 +123,7 @@ static void menu(Room* room, int* qtdDeQuartos) {
 
 		switch(opcao) {
 			case 1: 
-				adicionarHospede(room, *qtdDeQuartos);
+				adicionarHospede(room, *qtdQuartos);
 				break;
 			case 2:
 				printf("xxx\n");
@@ -152,18 +162,18 @@ static void menu(Room* room, int* qtdDeQuartos) {
 	} while(opcao != 0);
 }
 
-static void exibirQuartosDisponiveis(Room* room, int qtdDeQuartos) {
+static void exibirQuartosDisponiveis(Room* room, int qtdQuartos) {
 	printf("Quartos disponíveis:\n");
-	for(int i = 0; i < qtdDeQuartos; i++) {
+	for(int i = 0; i < qtdQuartos; i++) {
 		if(strcmp(room[i].status, "Disponivel") == 0) {
 			printf("Quarto Nº: %d\n", room[i].number);
 		}
 	}
 }
 
-static void adicionarHospede(Room* room, int qtdDeQuartos) {
+static void adicionarHospede(Room* room, int qtdQuartos) {
 	clearScreen();
-	exibirQuartosDisponiveis(room, qtdDeQuartos);
+	exibirQuartosDisponiveis(room, qtdQuartos);
 
 	int numQuarto = 0;
 
