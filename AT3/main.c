@@ -6,18 +6,22 @@
 
 #include "guest.h"
 
+// TODO: Criar função para listar hóspedes em ordem alfabética (utilizar algoritimo de ordenação);
+// TODO: Criar função para buscar hóspede pelo nome (possuir retorno pois será utilizado na função para editar um hóspede);
+// TODO: Criar um README.md com as instruções de como compilar e executar o programa;
+
 // Função principal;
 int main(void) {
 	// Configurando o ambiente de execução;
-	configurandoAmbiente();
+	configurarAmbiente();
 
-	FILE* arquivo = fopen(FILE_PATH, "r");
+	FILE* arquivo = fopen(CAMINHO_ARQUIVO, "r");
 
 	if(arquivo == NULL) {
 		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
-		Quarto* quarto = (Quarto*) malloc(ROOMS * sizeof(Quarto));
+		Quarto* quarto = (Quarto*) malloc(QTD_MAX_QUARTOS * sizeof(Quarto));
 
 		if(quarto == NULL) {
 			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
@@ -26,7 +30,7 @@ int main(void) {
 			int qtdQuartos = 0;
 
 			// Lendo o arquivo e salvando as informações na struct Room;
-			lendoArquivo(arquivo, quarto, &qtdQuartos);
+			lerArquivo(arquivo, quarto, &qtdQuartos);
 
 			// Exibindo o menu principal;
 			exibirMenu(arquivo, quarto, &qtdQuartos);
@@ -44,7 +48,7 @@ int main(void) {
 	return 0;
 }
 
-static void lendoArquivo(FILE* arquivo, Quarto* quarto, int* num) {
+static void lerArquivo(FILE* arquivo, Quarto* quarto, int* num) {
 	while(fscanf(arquivo, "%d;%[^;\n]", &quarto[*num].num, quarto[*num].status) != EOF) {
 		quarto[*num].qtdHospede = 0;
 
@@ -58,8 +62,8 @@ static void lendoArquivo(FILE* arquivo, Quarto* quarto, int* num) {
 	}
 }
 
-static void salvandoArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
-	arquivo = fopen(FILE_PATH, "w");
+static void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
+	arquivo = fopen(CAMINHO_ARQUIVO, "w");
 
 	if(arquivo == NULL) {
 		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
@@ -82,7 +86,7 @@ static void salvandoArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 }
 
 // Exibe informações da struct;
-static void exibindoQuartos(Quarto* quarto, int qtdQuartos) {
+static void exibirQuartos(Quarto* quarto, int qtdQuartos) {
 	for(int i = 0; i < qtdQuartos; i++) {
 		printf("Nº: %d\n", quarto[i].num);
 		printf("Status: %s\n", quarto[i].status);
@@ -99,22 +103,8 @@ static void exibindoQuartos(Quarto* quarto, int qtdQuartos) {
 	}
 }
 
-static void limparTela() {
-	#ifdef _WIN32
-	system("cls");
-	#elif __linux__
-	system("clear");
-	#endif
-}
-
-static void configurandoAmbiente() {
-	setlocale(LC_ALL, "Portuguese");
-	system("color 0A");
-	system("title Gerenciamento de Hotel");
-}
-
 static void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
-	int opcao;
+	int opcao = 0;
 
 	do {
 		limparTela();
@@ -163,7 +153,7 @@ static void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 
 			case 7:
 				limparTela();
-				salvandoArquivo(arquivo, quarto, *qtdQuartos);
+				salvarArquivo(arquivo, quarto, *qtdQuartos);
 				printf("Arquivo salvo com sucesso!\n");
 				system("pause");
 				break;
@@ -198,17 +188,40 @@ static void adicionarHospede(Quarto* quarto, int qtdQuartos) {
 	// Verificando se o quarto está disponível;
 	if(strcmp(quarto[numQuarto - 1].status, "Disponivel") == 0) {
 		// TODO: Adicionar verificação se quarto chegou ao máximo de hóspedes e pensar na lógica do fato de um quarto possuir mais de um hóspede e quando ele ficará ocupado;
-		Hospede hospede = { "" };
+		Hospede* hospede = (Hospede*) malloc(sizeof(Hospede));
 
-		printf("Digite o nome do hospede: ");
-		while(scanf(" %[^\n]", hospede.nome) != 1) {
-			printf("Erro ao ler o nome do hóspede, tente novamente: ");
-			while(getchar() != '\n');
-		};
+		if(hospede == NULL) {
+			printf("Erro ao alocar memória. Encerrando o programa...");
+			exit(1);
+		} else {
+			printf("Digite o nome do hospede: ");
+			while(scanf(" %[^\n]", hospede->nome) != 1) {
+				printf("Erro ao ler o nome do hóspede, tente novamente: ");
+				while(getchar() != '\n');
+			};
 
-		quarto[numQuarto - 1].hospede[quarto[numQuarto - 1].qtdHospede] = hospede;
-		quarto[numQuarto - 1].qtdHospede++;
+			// Adicionando hóspede ao quarto e incrementando a quantidade total de hóspedes do quarto;
+			quarto[numQuarto - 1].hospede[quarto[numQuarto - 1].qtdHospede] = *hospede;
+			quarto[numQuarto - 1].qtdHospede++;
+		}
+
+		// Liberando a memória do hospede;
+		free(hospede);
 	} else {
 		printf("Quarto não disponível, tente novamente.\n");
 	}
+}
+
+static void limparTela() {
+	#ifdef _WIN32
+	system("cls");
+	#elif __linux__
+	system("clear");
+	#endif
+}
+
+static void configurarAmbiente() {
+	setlocale(LC_ALL, "Portuguese");
+	system("color 0A");
+	system("title Gerenciamento de Hotel");
 }
