@@ -11,17 +11,17 @@ int main(void) {
 	FILE* file = fopen(FILE_PATH, "r");
 
 	if(file == NULL) {
-		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
+		printf("NÃ£o foi possÃ­vel abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
 		Room* room = (Room*) malloc(ROOMS * sizeof(Room));
 
 		if(room == NULL) {
-			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
+			printf("NÃ£o foi possÃ­vel alocar a memÃ³ria. Encerrando o programa...\n");
 			exit(1);
 		} else {
 			int num = 0;
-			// Lendo o arquivo e salvando as informações na struct Room;
+			// Lendo o arquivo e salvando as informaÃ§Ãµes na struct Room;
 			readFile(file, room, &num);
 
 			// TODO: criar um menu interativo;
@@ -30,7 +30,7 @@ int main(void) {
 			showRooms(room, num);
 		}
 
-		// Liberando memória alocada;
+		// Liberando memÃ³ria alocada;
 		free(room);
 	}
 
@@ -63,20 +63,20 @@ static void saveFile(FILE* file, Room* room) {
 		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
-		// TODO: criar lógica para salvar as modificações da struct Room no arquivo;
+		// TODO: criar lÃ³gica para salvar as modificaÃ§Ãµes da struct Room no arquivo;
 	}
 }
 
-// Exibe informações da struct;
+// Exibe informaÃ§Ãµes da struct;
 static void showRooms(Room* room, int num) {
-	for(int i = 0; i < num; i++) {
-		printf("Quarto Nº: %d\n", room[i].number);
+	for (int i = 0; i < num; i++) {
+		printf("NÂº: %d\n", room[i].number);
 		printf("Status: %s\n", room[i].status);
-		printf("Nº de hóspedes: %d\n", room[i].guestSize);
+		printf("NÂº de hÃ³spedes: %d\n", room[i].guestSize);
 
-		if(room[i].guestSize > 0) {
-			printf("\nHóspedes:\n");
-			for(int j = 0; j < room[i].guestSize; j++) {
+		if (room[i].guestSize > 0) {
+			printf("HÃ³spedes:\n");
+			for (int j = 0; j < room[i].guestSize; j++) {
 				printf(" - %s\n", room[i].guest[j].name);
 			}
 		}
@@ -97,4 +97,59 @@ static void configEnviroment() {
 	setlocale(LC_ALL, "Portuguese");
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
+}
+
+void menu(int x) {
+
+	do {
+		printf("1. Inserir hÃ³spedes em um quarto vazio\n2. Listar hÃ³spedes por ordem alfabÃ©tica\n3. Buscar hÃ³spede\n");
+		printf("4. Editar hÃ³spede\n5. Liberar um quarto\n6. Mostrar os nÃºmeros dos quartos vazios\n7. Salvar lista de hÃ³spedes com respectivos quartos em arquivo.\n");
+		printf("Pressione 0 para sair do programa\n");
+		printf("Digite o numero da opcao desejada :");
+		scanf("%d", &x);
+		switch (x)
+		{
+		case 1:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+		case 2:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+		case 3:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+		case 4:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+
+		case 5:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+		case 6:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+		case 7:
+			printf("xxx\n");
+			// funcionalidade aqui;
+			break;
+
+		default:
+			printf("OpÃ§Ã£o invÃ¡lida!\n");
+			break;
+
+		}
+	} while (x != 0);
+
 }
