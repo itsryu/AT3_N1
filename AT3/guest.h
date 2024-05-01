@@ -7,20 +7,21 @@
 #define ROOMS 50
 
 typedef struct {
-	char name[LENGTH];
-} Guest;
+	char nome[LENGTH];
+} Hospede;
 
 typedef struct {
-	int number;
+	int num;
 	char status[11];
-	Guest guest[4];
-	int guestSize;
-} Room;
+	Hospede hospede[4];
+	int qtdHospede;
+} Quarto;
 
 static void configurandoAmbiente();
 static void limparTela();
-static void lendoArquivo(FILE* file, Room* room, int* num);
-static void salvandoArquivo(FILE* file, Room* room, int qtdQuartos);
-static void exibirQuartosDisponiveis(Room* room, int qtdQuartos);
-static void exibirMenu(FILE* arquivo, Room* room, int* qtdQuartos);
-static void adicionarHospede(Room* room, int qtdDeQuartos);
+static void lendoArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos);
+static void salvandoArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos);
+static void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos);
+static void exibindoQuartos(Quarto* room, int num);
+static void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos);
+static void adicionarHospede(Quarto* quarto, int qtdDeQuartos);
