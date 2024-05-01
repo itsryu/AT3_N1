@@ -11,9 +11,9 @@ int main(void) {
 	// Configurando o ambiente de execução;
 	configurandoAmbiente();
 
-	FILE* file = fopen(FILE_PATH, "r");
+	FILE* arquivo = fopen(FILE_PATH, "r");
 
-	if(file == NULL) {
+	if(arquivo == NULL) {
 		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
@@ -26,10 +26,10 @@ int main(void) {
 			int qtdQuartos = 0;
 
 			// Lendo o arquivo e salvando as informações na struct Room;
-			lendoArquivo(file, room, &qtdQuartos);
+			lendoArquivo(arquivo, room, &qtdQuartos);
 
 			// Exibindo o menu principal;
-			exibirMenu(room, &qtdQuartos);
+			exibirMenu(arquivo, room, &qtdQuartos);
 		}
 
 		// Liberando memória alocada;
@@ -37,7 +37,7 @@ int main(void) {
 	}
 
 	// Fechando o arquivo e encerrando o programa;
-	fclose(file);
+	fclose(arquivo);
 	printf("Programa encerrado com sucesso!\n");
 
 	system("pause");
@@ -113,7 +113,7 @@ static void configurandoAmbiente() {
 	system("title Gerenciamento de Hotel");
 }
 
-static void exibirMenu(Room* room, int* qtdQuartos) {
+static void exibirMenu(FILE* arquivo, Room* room, int* qtdQuartos) {
 	int opcao;
 
 	do {
@@ -133,6 +133,7 @@ static void exibirMenu(Room* room, int* qtdQuartos) {
 			case 1: 
 				limparTela();
 				adicionarHospede(room, *qtdQuartos);
+				system("pause");
 				break;
 			case 2:
 				printf("xxx\n");
@@ -155,13 +156,16 @@ static void exibirMenu(Room* room, int* qtdQuartos) {
 				break;
 
 			case 6:
-				printf("xxx\n");
-				// funcionalidade aqui;
+				limparTela();
+				exibirQuartosDisponiveis(room, *qtdQuartos);
+				system("pause");
 				break;
 
 			case 7:
-				printf("xxx\n");
-				// funcionalidade aqui;
+				limparTela();
+				salvandoArquivo(arquivo,room, *qtdQuartos);
+				printf("Arquivo salvo com sucesso!\n");
+				system("pause");
 				break;
 
 			default:

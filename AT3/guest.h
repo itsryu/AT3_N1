@@ -21,6 +21,6 @@ static void configurandoAmbiente();
 static void limparTela();
 static void lendoArquivo(FILE* file, Room* room, int* num);
 static void salvandoArquivo(FILE* file, Room* room, int qtdQuartos);
-static void exibindoQuartos(Room* room, int num);
-static void exibirMenu(Room* room, int* qtdDeQuartos);
+static void exibirQuartosDisponiveis(Room* room, int qtdQuartos);
+static void exibirMenu(FILE* arquivo, Room* room, int* qtdQuartos);
 static void adicionarHospede(Room* room, int qtdDeQuartos);
