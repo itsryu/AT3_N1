@@ -22,3 +22,5 @@ static void clearScreen();
 static void readFile(FILE* file, Room* room, int* num);
 static void saveFile(FILE* file, Room* room);
 static void showRooms(Room* room, int num);
+static int verificarDisponibilidade(Room* room, int qtdDeQuartos);
+static void adicionarHospede();

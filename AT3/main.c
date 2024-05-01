@@ -20,14 +20,12 @@ int main(void) {
 			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
 			exit(1);
 		} else {
-			int num = 0;
+			int qtdDeQuartos = 0, opcao = 0;
 			// Lendo o arquivo e salvando as informações na struct Room;
-			readFile(file, room, &num);
+			readFile(file, room, &qtdDeQuartos);
 
 			// TODO: criar um menu interativo;
-
-			// Exibindo os dados da struct;
-			showRooms(room, num);
+			menu(opcao);
 		}
 
 		// Liberando memória alocada;
@@ -69,14 +67,14 @@ static void saveFile(FILE* file, Room* room) {
 
 // Exibe informações da struct;
 static void showRooms(Room* room, int num) {
-	for (int i = 0; i < num; i++) {
+	for(int i = 0; i < num; i++) {
 		printf("Nº: %d\n", room[i].number);
 		printf("Status: %s\n", room[i].status);
 		printf("Nº de hóspedes: %d\n", room[i].guestSize);
 
-		if (room[i].guestSize > 0) {
+		if(room[i].guestSize > 0) {
 			printf("Hóspedes:\n");
-			for (int j = 0; j < room[i].guestSize; j++) {
+			for(int j = 0; j < room[i].guestSize; j++) {
 				printf(" - %s\n", room[i].guest[j].name);
 			}
 		}
@@ -99,57 +97,71 @@ static void configEnviroment() {
 	system("title Gerenciamento de Hotel");
 }
 
-void menu(int x) {
-
+static void menu(int x) {
 	do {
 		printf("1. Inserir hóspedes em um quarto vazio\n2. Listar hóspedes por ordem alfabética\n3. Buscar hóspede\n");
 		printf("4. Editar hóspede\n5. Liberar um quarto\n6. Mostrar os números dos quartos vazios\n7. Salvar lista de hóspedes com respectivos quartos em arquivo.\n");
 		printf("Pressione 0 para sair do programa\n");
 		printf("Digite o numero da opcao desejada :");
 		scanf("%d", &x);
-		switch (x)
-		{
-		case 1:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
 
-		case 2:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
+		switch(x) {
+			case 1: 
+				break;
 
-		case 3:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
+			case 2:
+				printf("xxx\n");
+				// funcionalidade aqui;
+				break;
 
-		case 4:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
+			case 3:
+				printf("xxx\n");
+				// funcionalidade aqui;
+				break;
 
+			case 4:
+				printf("xxx\n");
+				// funcionalidade aqui;
+				break;
 
-		case 5:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
+			case 5:
+				printf("xxx\n");
+				// funcionalidade aqui;
+				break;
 
-		case 6:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
+			case 6:
+				printf("xxx\n");
+				// funcionalidade aqui;
+				break;
 
-		case 7:
-			printf("xxx\n");
-			// funcionalidade aqui;
-			break;
+			case 7:
+				printf("xxx\n");
+				// funcionalidade aqui;
+				break;
 
-		default:
-			printf("Opção inválida!\n");
-			break;
-
+			default:
+				printf("Opção inválida!\n");
+				break;
 		}
-	} while (x != 0);
+	} while(x != 0);
+}
 
+static void adicionarHospede() {
+	// TODO: Adicionar lógica para adicionar hóspede no quarto;
+}
+
+static int verificarDisponibilidade(Room* room, int qtdDeQuartos) {
+	int numQuarto = 0;
+
+	printf("Insira o número do quarto: ");
+	while(scanf("%d", &numQuarto) != 1 || numQuarto < 1) {
+		printf("Número inválido. Insira novamente: ");
+		while(getchar() != '\n');
+	}
+		
+	if(room[numQuarto].status == "Disponível") {
+		return 1;
+	} else {
+		return 0;
+	}
 }
