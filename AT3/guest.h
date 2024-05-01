@@ -17,9 +17,10 @@ typedef struct {
 	int guestSize;
 } Room;
 
-static void configEnviroment();
-static void clearScreen();
-static void readFile(FILE* file, Room* room, int* num);
-static void saveFile(FILE* file, Room* room);
-static void menu(Room* room, int* qtdDeQuartos);
+static void configurandoAmbiente();
+static void limparTela();
+static void lendoArquivo(FILE* file, Room* room, int* num);
+static void salvandoArquivo(FILE* file, Room* room, int qtdQuartos);
+static void exibindoQuartos(Room* room, int num);
+static void exibirMenu(Room* room, int* qtdDeQuartos);
 static void adicionarHospede(Room* room, int qtdDeQuartos);

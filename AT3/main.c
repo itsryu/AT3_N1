@@ -6,8 +6,10 @@
 
 #include "guest.h"
 
+// Função principal;
 int main(void) {
-	configEnviroment();
+	// Configurando o ambiente de execução;
+	configurandoAmbiente();
 
 	FILE* file = fopen(FILE_PATH, "r");
 
@@ -22,9 +24,12 @@ int main(void) {
 			exit(1);
 		} else {
 			int qtdQuartos = 0;
+
 			// Lendo o arquivo e salvando as informações na struct Room;
-			readFile(file, room, &qtdQuartos);
-			menu(room, &qtdQuartos);
+			lendoArquivo(file, room, &qtdQuartos);
+
+			// Exibindo o menu principal;
+			exibirMenu(room, &qtdQuartos);
 		}
 
 		// Liberando memória alocada;
@@ -39,7 +44,7 @@ int main(void) {
 	return 0;
 }
 
-static void readFile(FILE* file, Room* room, int* num) {
+static void lendoArquivo(FILE* file, Room* room, int* num) {
 	while(fscanf(file, "%d;%[^;\n]", &room[*num].number, room[*num].status) != EOF) {
 		room[*num].guestSize = 0;
 
@@ -53,7 +58,7 @@ static void readFile(FILE* file, Room* room, int* num) {
 	}
 }
 
-static void saveFile(FILE* file, Room* room, int qtdQuartos) {
+static void salvandoArquivo(FILE* file, Room* room, int qtdQuartos) {
 	file = fopen(FILE_PATH, "w");
 
 	if(file == NULL) {
@@ -71,11 +76,13 @@ static void saveFile(FILE* file, Room* room, int qtdQuartos) {
 				fprintf(file, "\n");
 			}
 		}
+
+		fclose(file);
 	}
 }
 
 // Exibe informações da struct;
-static void showRooms(Room* room, int num) {
+static void exibindoQuartos(Room* room, int num) {
 	for(int i = 0; i < num; i++) {
 		printf("Nº: %d\n", room[i].number);
 		printf("Status: %s\n", room[i].status);
@@ -92,7 +99,7 @@ static void showRooms(Room* room, int num) {
 	}
 }
 
-static void clearScreen() {
+static void limparTela() {
 	#ifdef _WIN32
 	system("cls");
 	#elif __linux__
@@ -100,17 +107,18 @@ static void clearScreen() {
 	#endif
 }
 
-static void configEnviroment() {
+static void configurandoAmbiente() {
 	setlocale(LC_ALL, "Portuguese");
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
 }
 
-static void menu(Room* room, int* qtdQuartos) {
+static void exibirMenu(Room* room, int* qtdQuartos) {
 	int opcao;
 
 	do {
-		clearScreen();
+		limparTela();
+		printf("---------- Gerenciador de Hóspede ----------\n\n");
 		printf("1. Inserir hóspedes em um quarto vazio\n2. Listar hóspedes por ordem alfabética\n3. Buscar hóspede\n");
 		printf("4. Editar hóspede\n5. Liberar um quarto\n6. Mostrar os números dos quartos vazios\n7. Salvar lista de hóspedes com respectivos quartos em arquivo.\n\n");
 		printf("Pressione 0 para sair do programa\n");
@@ -123,6 +131,7 @@ static void menu(Room* room, int* qtdQuartos) {
 
 		switch(opcao) {
 			case 1: 
+				limparTela();
 				adicionarHospede(room, *qtdQuartos);
 				break;
 			case 2:
@@ -156,7 +165,6 @@ static void menu(Room* room, int* qtdQuartos) {
 				break;
 
 			default:
-				printf("Opção inválida!\n");
 				break;
 		}
 	} while(opcao != 0);
@@ -172,7 +180,7 @@ static void exibirQuartosDisponiveis(Room* room, int qtdQuartos) {
 }
 
 static void adicionarHospede(Room* room, int qtdQuartos) {
-	clearScreen();
+	// Exibindo quartos disponíveis;
 	exibirQuartosDisponiveis(room, qtdQuartos);
 
 	int numQuarto = 0;
@@ -183,6 +191,7 @@ static void adicionarHospede(Room* room, int qtdQuartos) {
 		while(getchar() != '\n');
 	}
 
+	// Verificando se o quarto está disponível;
 	if(strcmp(room[numQuarto].status, "Disponivel") == 0) {
 		// TODO: Adicionar lógica para adicionar hóspede no quarto;
 	} else {
