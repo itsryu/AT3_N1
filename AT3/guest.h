@@ -19,6 +19,7 @@ typedef struct {
 
 static void configurarAmbiente();
 static void limparTela();
+static void alocarQuartos(FILE* arquivo);
 static void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos);
 static void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos);
 static void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos);

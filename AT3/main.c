@@ -29,6 +29,8 @@ int main(void) {
 		} else {
 			int qtdQuartos = 0;
 
+			alocarQuartos(arquivo);
+
 			// Lendo o arquivo e salvando as informações na struct Room;
 			lerArquivo(arquivo, quarto, &qtdQuartos);
 
@@ -60,6 +62,21 @@ static void lerArquivo(FILE* arquivo, Quarto* quarto, int* num) {
 
 		(*num)++;
 	}
+}
+
+static void alocarQuartos(FILE* arquivo) {
+	arquivo = fopen(CAMINHO_ARQUIVO, "w");
+
+	if(arquivo == NULL) {
+		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
+		exit(1);
+	} else {
+		for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
+			fprintf(arquivo, "%d;Disponivel\n", i + 1);
+		}
+	}
+
+	fclose(arquivo);
 }
 
 static void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
