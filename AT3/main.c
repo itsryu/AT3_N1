@@ -11,17 +11,17 @@ int main(void) {
 	FILE* file = fopen(FILE_PATH, "r");
 
 	if(file == NULL) {
-		printf("NÃ£o foi possÃ­vel abrir o arquivo. Encerrando o programa...\n");
+		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
 		Room* room = (Room*) malloc(ROOMS * sizeof(Room));
 
 		if(room == NULL) {
-			printf("NÃ£o foi possÃ­vel alocar a memÃ³ria. Encerrando o programa...\n");
+			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
 			exit(1);
 		} else {
 			int num = 0;
-			// Lendo o arquivo e salvando as informaÃ§Ãµes na struct Room;
+			// Lendo o arquivo e salvando as informações na struct Room;
 			readFile(file, room, &num);
 
 			// TODO: criar um menu interativo;
@@ -30,7 +30,7 @@ int main(void) {
 			showRooms(room, num);
 		}
 
-		// Liberando memÃ³ria alocada;
+		// Liberando memória alocada;
 		free(room);
 	}
 
@@ -38,6 +38,7 @@ int main(void) {
 	fclose(file);
 	printf("Programa encerrado com sucesso!\n");
 
+	system("pause");
 	return 0;
 }
 
@@ -62,19 +63,19 @@ static void saveFile(FILE* file, Room* room) {
 		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
 		exit(1);
 	} else {
-		// TODO: criar lÃ³gica para salvar as modificaÃ§Ãµes da struct Room no arquivo;
+		// TODO: criar lógica para salvar as modificações da struct Room no arquivo;
 	}
 }
 
-// Exibe informaÃ§Ãµes da struct;
+// Exibe informações da struct;
 static void showRooms(Room* room, int num) {
 	for(int i = 0; i < num; i++) {
-		printf("NÂº: %d\n", room[i].number);
+		printf("Quarto Nº: %d\n", room[i].number);
 		printf("Status: %s\n", room[i].status);
-		printf("NÂº de hÃ³spedes: %d\n", room[i].guestSize);
+		printf("Nº de hóspedes: %d\n", room[i].guestSize);
 
 		if(room[i].guestSize > 0) {
-			printf("HÃ³spedes:\n");
+			printf("\nHóspedes:\n");
 			for(int j = 0; j < room[i].guestSize; j++) {
 				printf(" - %s\n", room[i].guest[j].name);
 			}
