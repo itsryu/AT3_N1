@@ -198,6 +198,13 @@ static void adicionarHospede(Room* room, int qtdQuartos) {
 	// Verificando se o quarto está disponível;
 	if(strcmp(room[numQuarto].status, "Disponivel") == 0) {
 		// TODO: Adicionar lógica para adicionar hóspede no quarto;
+			Guest hospede;
+		
+		printf("Digite o nome do hospede");
+		scanf("%s \n", hospede.name);
+		
+		room [numQuarto].guest [0] = hospede;
+		room [numQuarto].guestSize ++;
 	} else {
 		printf("Quarto não disponível, tente novamente.");
 	}
