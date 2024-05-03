@@ -6,9 +6,10 @@
 
 #include "guest.h"
 
-// TODO: Criar função para listar hóspedes em ordem alfabética (utilizar algoritimo de ordenação);
 // TODO: Criar função para buscar hóspede pelo nome (possuir retorno pois será utilizado na função para editar um hóspede);
 // TODO: Criar um README.md com as instruções de como compilar e executar o programa;
+// TODO: Criar uma função para editar determinado hóspede;
+// TODO: Criar função para exibir os quartos vazios;
 
 // Função principal;
 int main(void) {
@@ -29,9 +30,7 @@ int main(void) {
 		} else {
 			int qtdQuartos = 0;
 
-			alocarQuartos(arquivo);
-
-			// Lendo o arquivo e salvando as informações na struct Room;
+			// Lendo o arquivo e salvando as informações na struct Quarto;
 			lerArquivo(arquivo, quarto, &qtdQuartos);
 
 			// Exibindo o menu principal;
@@ -50,33 +49,18 @@ int main(void) {
 	return 0;
 }
 
-static void lerArquivo(FILE* arquivo, Quarto* quarto, int* num) {
-	while(fscanf(arquivo, "%d;%[^;\n]", &quarto[*num].num, quarto[*num].status) != EOF) {
-		quarto[*num].qtdHospede = 0;
+static void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
+	while(fscanf(arquivo, "%d;%[^;\n];", &quarto[*qtdQuartos].num, quarto[*qtdQuartos].status) != EOF) {
+		quarto[*qtdQuartos].qtdHospede = 0;
 
-		while(fscanf(arquivo, ";%[^;\n]\n", quarto[*num].hospede[quarto[*num].qtdHospede].nome) == 1) {
-			quarto[*num].qtdHospede++;
+		while(fscanf(arquivo, "%[^;\n];", quarto[*qtdQuartos].hospede[quarto[*qtdQuartos].qtdHospede].nome) == 1) {
+			quarto[*qtdQuartos].qtdHospede++;
 
-			if(quarto[*num].qtdHospede >= 4) break;
+			if(quarto[*qtdQuartos].qtdHospede >= (QTD_MAX_HOSPEDE / QTD_MAX_QUARTOS)) break;
 		}
 
-		(*num)++;
+		(*qtdQuartos)++;
 	}
-}
-
-static void alocarQuartos(FILE* arquivo) {
-	arquivo = fopen(CAMINHO_ARQUIVO, "w");
-
-	if(arquivo == NULL) {
-		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
-		exit(1);
-	} else {
-		for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
-			fprintf(arquivo, "%d;Disponivel\n", i + 1);
-		}
-	}
-
-	fclose(arquivo);
 }
 
 static void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
@@ -99,24 +83,8 @@ static void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 		}
 
 		fclose(arquivo);
-	}
-}
 
-// Exibe informações da struct;
-static void exibirQuartos(Quarto* quarto, int qtdQuartos) {
-	for(int i = 0; i < qtdQuartos; i++) {
-		printf("Nº: %d\n", quarto[i].num);
-		printf("Status: %s\n", quarto[i].status);
-		printf("Nº de hóspedes: %d\n", quarto[i].qtdHospede);
-
-		if(quarto[i].qtdHospede > 0) {
-			printf("Hóspedes:\n");
-			for(int j = 0; j < quarto[i].qtdHospede; j++) {
-				printf(" - %s\n", quarto[i].hospede[j].nome);
-			}
-		}
-
-		printf("\n====================\n\n");
+		printf("Arquivo salvo com sucesso!\n");
 	}
 }
 
@@ -138,40 +106,54 @@ static void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 
 		switch(opcao) {
 			case 1:
+			{
 				limparTela();
 				adicionarHospede(quarto, *qtdQuartos);
+
 				system("pause");
 				break;
+			}
 			case 2:
-				printf("xxx\n");
-				// funcionalidade aqui;
-				break;
+			{
+				limparTela();
+				int qtdTotalHospedes = 0;
+				Hospede* hospede = guardarHospedes(quarto, *qtdQuartos, &qtdTotalHospedes);
+	
+				quickSort(hospede, 0, qtdTotalHospedes - 1);
+				listarHospedes(hospede, qtdTotalHospedes);
 
+				system("pause");
+				break;
+			}
 			case 3:
+			{
 				printf("xxx\n");
 				// funcionalidade aqui;
 				break;
-
+			}
 			case 4:
+			{
 				printf("xxx\n");
 				// funcionalidade aqui;
 				break;
-
+			}
 			case 5:
+			{
 				printf("xxx\n");
 				// funcionalidade aqui;
 				break;
-
+			}
 			case 6:
+			{
 				limparTela();
 				exibirQuartosDisponiveis(quarto, *qtdQuartos);
+
 				system("pause");
 				break;
-
+			}
 			case 7:
 				limparTela();
 				salvarArquivo(arquivo, quarto, *qtdQuartos);
-				printf("Arquivo salvo com sucesso!\n");
 				system("pause");
 				break;
 
@@ -185,9 +167,10 @@ static void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
 	printf("Quartos disponíveis:\n");
 	for(int i = 0; i < qtdQuartos; i++) {
 		if(strcmp(quarto[i].status, "Disponivel") == 0) {
-			printf("Quarto Nº: %d\n", quarto[i].num);
+			printf(" %d |", quarto[i].num);
 		}
 	}
+	printf("\n\n");
 }
 
 static void adicionarHospede(Quarto* quarto, int qtdQuartos) {
@@ -197,14 +180,13 @@ static void adicionarHospede(Quarto* quarto, int qtdQuartos) {
 	int numQuarto = 0;
 
 	printf("Insira o número do quarto: ");
-	while(scanf("%d", &numQuarto) != 1 || numQuarto < 1) {
+	while(scanf("%d", &numQuarto) != 1 || numQuarto < 1 || numQuarto > QTD_MAX_QUARTOS) {
 		printf("Número inválido. Insira novamente: ");
 		while(getchar() != '\n');
 	}
 
 	// Verificando se o quarto está disponível;
 	if(strcmp(quarto[numQuarto - 1].status, "Disponivel") == 0) {
-		// TODO: Adicionar verificação se quarto chegou ao máximo de hóspedes e pensar na lógica do fato de um quarto possuir mais de um hóspede e quando ele ficará ocupado;
 		Hospede* hospede = (Hospede*) malloc(sizeof(Hospede));
 
 		if(hospede == NULL) {
@@ -220,6 +202,9 @@ static void adicionarHospede(Quarto* quarto, int qtdQuartos) {
 			// Adicionando hóspede ao quarto e incrementando a quantidade total de hóspedes do quarto;
 			quarto[numQuarto - 1].hospede[quarto[numQuarto - 1].qtdHospede] = *hospede;
 			quarto[numQuarto - 1].qtdHospede++;
+
+			// Alterando o status do quarto para ocupado;
+			if(quarto[numQuarto - 1].qtdHospede == (QTD_MAX_HOSPEDE / QTD_MAX_QUARTOS)) strcpy(quarto[numQuarto - 1].status, "Ocupado");
 		}
 
 		// Liberando a memória do hospede;
@@ -228,6 +213,103 @@ static void adicionarHospede(Quarto* quarto, int qtdQuartos) {
 		printf("Quarto não disponível, tente novamente.\n");
 	}
 }
+
+static void trocarValores(Hospede* a, Hospede* b) {
+	Hospede temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+static int particionarVetor(Hospede* hospede, int left, int right) {
+	Hospede pivot = hospede[right];
+	int i = left - 1;
+
+	for(int j = left; j < right; j++) {
+		Hospede* A = &hospede[j];
+		Hospede* B = &pivot;
+
+		if(strcmp(A->nome, B->nome) <= 0) {
+			i++;
+			trocarValores(&hospede[i], &hospede[j]);
+		}
+	}
+
+	trocarValores(&hospede[i + 1], &hospede[right]);
+	return i + 1;
+}
+
+static void quickSort(Hospede* hospede, int left, int right) {
+	if(left < right) {
+		int p = particionarVetor(hospede, left, right);
+
+		quickSort(hospede, left, p - 1);
+		quickSort(hospede, p + 1, right);
+	}
+}
+
+static Hospede* guardarHospedes(Quarto* quarto, int qtdQuartos, int* qtdTotalHospedes) {
+	Hospede* hospede = (Hospede*) malloc(QTD_MAX_HOSPEDE * sizeof(Hospede));
+
+	if(hospede == NULL) {
+		printf("Erro ao alocar a memória. Encerrando o programa...\n");
+		exit(1);
+	} else {
+		for(int i = 0; i < qtdQuartos; i++) {
+			for(int j = 0; j < quarto[i].qtdHospede; j++) {
+				hospede[*qtdTotalHospedes] = quarto[i].hospede[j];
+
+				(*qtdTotalHospedes)++;
+			}
+		}
+	}
+
+	return hospede;
+}
+
+static void listarHospedes(Hospede* hospede, int qtdHospedes) {
+	printf("Hóspedes em ordem alfabética:\n\n");
+	for(int i = 0; i < qtdHospedes; i++) {
+		printf("- %s\n", hospede[i].nome);
+	}
+}
+
+//--------------------------------------- FUNÇÕES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
+
+// Alocar quartos no arquivo (Aloca todos os quartos como disponível e deleta os hóspedes);
+static void alocarQuartos(FILE* arquivo) {
+	arquivo = fopen(CAMINHO_ARQUIVO, "w");
+
+	if(arquivo == NULL) {
+		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
+		exit(1);
+} else {
+		for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
+			fprintf(arquivo, "%d;Disponivel\n", i + 1);
+		}
+	}
+
+	fclose(arquivo);
+}
+
+// Exibe informações da struct Quarto;
+static void exibirQuartos(Quarto* quarto, int qtdQuartos) {
+	for(int i = 0; i < qtdQuartos; i++) {
+		printf("Nº: %d\n", quarto[i].num);
+		printf("Status: %s\n", quarto[i].status);
+		printf("Nº de hóspedes: %d\n", quarto[i].qtdHospede);
+
+		if(quarto[i].qtdHospede > 0) {
+			printf("Hóspedes:\n");
+			for(int j = 0; j < quarto[i].qtdHospede; j++) {
+				printf(" - %s\n", quarto[i].hospede[j].nome);
+			}
+		}
+
+		printf("\n====================\n\n");
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------//
 
 static void limparTela() {
 	#ifdef _WIN32
