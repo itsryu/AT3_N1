@@ -127,20 +127,23 @@ static void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 			}
 			case 3:
 			{
-				printf("xxx\n");
-				// funcionalidade aqui;
+				limparTela();
+    			buscarHospedePorNome(quarto, *qtdQuartos);
+				system("pause");
 				break;
 			}
 			case 4:
 			{
 				printf("xxx\n");
 				// funcionalidade aqui;
+				system("pause");
 				break;
 			}
 			case 5:
 			{
 				printf("xxx\n");
 				// funcionalidade aqui;
+				system("pause");
 				break;
 			}
 			case 6:
@@ -323,4 +326,32 @@ static void configurarAmbiente() {
 	setlocale(LC_ALL, "Portuguese");
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
+}
+
+
+// Adicionando funcao 3; buscando hospede
+
+static void buscarHospedePorNome(Quarto* quarto, int qtdQuartos) {
+    char nome[MAX];
+    int encontrado = 0;
+
+    printf("Digite o nome do hospede a ser buscado: ");
+    scanf(" %[^\n]", nome);
+
+    for (int i = 0; i < qtdQuartos; i++) {
+        for (int j = 0; j < quarto[i].qtdHospede; j++) {
+            if (strcmp(quarto[i].hospede[j].nome, nome) == 0) {
+                printf("Hospede encontrado:\n");
+                printf("Quarto: %d\n", quarto[i].num);
+                printf("Nome: %s\n", quarto[i].hospede[j].nome);
+                encontrado = 1;
+                break;
+            }
+        }
+        if (encontrado) break;
+    }
+
+    if (!encontrado) {
+        printf("Hospede nao encontrado.\n");
+    }
 }
