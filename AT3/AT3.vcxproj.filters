@@ -18,9 +18,18 @@
     <ClCompile Include="main.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="functions\functions.c">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="functions\menu.c">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="guest.h">
+    <ClInclude Include="headers\functions.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\types.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,5 +38,8 @@
       <Filter>Arquivos de Recurso</Filter>
     </None>
     <None Include=".gitignore" />
+    <None Include="windows.bat">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
   </ItemGroup>
 </Project>

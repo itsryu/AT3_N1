@@ -128,12 +128,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="functions\functions.c" />
+    <ClCompile Include="functions\menu.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="guest.h" />
+    <ClInclude Include="headers\functions.h" />
+    <ClInclude Include="headers\types.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="windows.bat" />
     <None Include=".gitignore" />
     <None Include="guests.csv" />
   </ItemGroup>
