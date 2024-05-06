@@ -239,6 +239,14 @@ void limparTela() {
 	#endif
 }
 
+void pausarTela() {
+	#ifdef _WIN32
+	system("pause");
+	#elif __linux__
+	system("read -p \"Pressione qualquer tecla para continuar...\"");
+	#endif
+}
+
 // Configura o ambiente de execução;
 void configurarAmbiente() {
 	setlocale(LC_ALL, "Portuguese");

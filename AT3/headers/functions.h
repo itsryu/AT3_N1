@@ -5,6 +5,7 @@
 #include "../headers/types.h"
 
 void limparTela();
+void pausarTela();
 void configurarAmbiente();
 void alocarQuartos(FILE* arquivo);
 void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos);

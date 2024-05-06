@@ -41,5 +41,6 @@
     <None Include="windows.bat">
       <Filter>Arquivos de Origem</Filter>
     </None>
+    <None Include="linux.sh" />
   </ItemGroup>
 </Project>

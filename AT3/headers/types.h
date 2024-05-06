@@ -12,6 +12,6 @@ typedef struct {
 typedef struct {
 	int num;
 	char status[11];
-	Hospede hospede[4];
+	Hospede hospede[QTD_MAX_HOSPEDE / QTD_MAX_QUARTOS];
 	int qtdHospede;
 } Quarto;

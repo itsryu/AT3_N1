@@ -137,6 +137,7 @@
     <ClInclude Include="headers\types.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="linux.sh" />
     <None Include="windows.bat" />
     <None Include=".gitignore" />
     <None Include="guests.csv" />

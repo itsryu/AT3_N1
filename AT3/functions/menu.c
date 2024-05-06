@@ -26,7 +26,7 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 				limparTela();
 				adicionarHospede(quarto, *qtdQuartos);
 
-				system("pause");
+				pausarTela();
 				break;
 			}
 			case 2:
@@ -38,41 +38,40 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 				quickSort(hospede, 0, qtdTotalHospedes - 1);
 				listarHospedes(hospede, qtdTotalHospedes);
 
-				system("pause");
+				pausarTela();
 				break;
 			}
 			case 3:
 			{
 				limparTela();
-				system("pause");
+				pausarTela();
 				break;
 			}
 			case 4:
 			{
 				printf("xxx\n");
 				// funcionalidade aqui;
-				system("pause");
+				pausarTela();
 				break;
 			}
 			case 5:
 			{
 				printf("xxx\n");
 				// funcionalidade aqui;
-				system("pause");
+				pausarTela();
 				break;
 			}
 			case 6:
 			{
 				limparTela();
 				exibirQuartosDisponiveis(quarto, *qtdQuartos);
-
-				system("pause");
+				pausarTela();
 				break;
 			}
 			case 7:
 				limparTela();
 				salvarArquivo(arquivo, quarto, *qtdQuartos);
-				system("pause");
+				pausarTela();
 				break;
 
 			default:
