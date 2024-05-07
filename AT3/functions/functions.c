@@ -240,17 +240,30 @@ void limparTela() {
 }
 
 void pausarTela() {
-	#ifdef _WIN32
-	system("pause");
-	#elif __linux__
-	printf("Pressione qualquer tecla para continuar...");
+	printf("Pressione ENTER para continuar...\n");
+	while(getchar() != '\n');
 	getchar();
-	#endif
 }
 
 // Configura o ambiente de execução;
 void configurarAmbiente() {
-	setlocale(LC_ALL, "Portuguese");
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
+
+	char* local = setlocale(LC_ALL, "");
+
+	printf("Configurando a localidade:\n\n");
+	printf("Localidade padrão do sistema: %s\n", local);
+
+	if(local != NULL && strcmp(local, "Portuguese_Brazil.1252") == 0) {
+		printf("Localidade já está configurada!\n\n");
+	} else {
+		printf("Configurando a localidade para Português do Brasil...\n");
+
+		setlocale(LC_ALL, "Portuguese");
+		
+		printf("Localidade configurada para Português com sucesso!\n\n");
+	}
+
+	pausarTela();
 }

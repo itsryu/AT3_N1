@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "../headers/types.h"
 #include "../headers/functions.h"

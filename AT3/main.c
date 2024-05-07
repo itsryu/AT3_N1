@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <malloc.h>
 
 #include "./headers/types.h"
@@ -19,7 +18,7 @@ int main(void) {
 
 	if(arquivo == NULL) {
 		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
-		exit(1);
+		return 1;
 	} else {
 		Quarto* quarto = (Quarto*) malloc(QTD_MAX_QUARTOS * sizeof(Quarto));
 
@@ -44,6 +43,6 @@ int main(void) {
 	fclose(arquivo);
 	printf("Programa encerrado com sucesso!\n");
 
-	system("pause");
+	pausarTela();
 	return 0;
 }
