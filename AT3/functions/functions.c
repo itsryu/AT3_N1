@@ -243,7 +243,8 @@ void pausarTela() {
 	#ifdef _WIN32
 	system("pause");
 	#elif __linux__
-	system("read -p \"Pressione qualquer tecla para continuar...\"");
+	printf("Pressione qualquer tecla para continuar...");
+	getchar();
 	#endif
 }
 
