@@ -19,3 +19,6 @@ void listarHospedes(Hospede* hospede, int qtdHospedes);
 void quickSort(Hospede* hospede, int left, int right);
 int particionarVetor(Hospede* hospede, int left, int right);
 void trocarValores(Hospede* a, Hospede* b);
+void limpar_buffer ();
+char buscarhospede (Quarto* quarto, int qtdQuartos);
+void quartoVazio (Quarto *quarto, int qtdHospede);
