@@ -258,8 +258,10 @@ void pausarTela() {
 
 // Configura o ambiente de execução;
 void configurarAmbiente() {
+	#ifdef _WIN32
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
+	#endif
 
 	char* local = setlocale(LC_ALL, NULL);
 
