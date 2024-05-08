@@ -24,7 +24,7 @@ int main(void) {
 
 		if(quarto == NULL) {
 			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
-			exit(1);
+			return 1;
 		} else {
 			int qtdQuartos = 0;
 
