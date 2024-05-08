@@ -1,6 +1,8 @@
 {
     "files.associations": {
         ".fantomasignore": "ignore",
-        "structs.h": "c"
+        "structs.h": "c",
+        "functions.h": "c",
+        "types.h": "c"
     }
 }

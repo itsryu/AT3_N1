@@ -4,10 +4,10 @@
 #include <string.h>
 #include <malloc.h>
 
-#include "../headers/types.h"
-#include "../headers/functions.h"
+#include "../include/types.h"
+#include "../include/functions.h"
 
-// Lï¿½ o arquivo e salva as informaï¿½ï¿½es na struct Quarto;
+// Lê o arquivo e salva as informações na struct Quarto;
 void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	while(fscanf(arquivo, "%d;%[^;\n];", &quarto[*qtdQuartos].num, quarto[*qtdQuartos].status) != EOF) {
 		quarto[*qtdQuartos].qtdHospede = 0;
@@ -22,7 +22,7 @@ void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	}
 }
 
-// Pega as informaï¿½ï¿½es da struct Quarto e salva no arquivo;
+// Pega as informações da struct Quarto e salva no arquivo;
 void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 	arquivo = fopen(CAMINHO_ARQUIVO, "w");
 
@@ -49,7 +49,7 @@ void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 }
 
 void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
-	printf("Quartos disponï¿½veis:\n");
+	printf("Quartos disponíveis:\n");
 	for(int i = 0; i < qtdQuartos; i++) {
 		if(strcmp(quarto[i].status, "Disponivel") == 0) {
 			printf(" %d |", quarto[i].num);
@@ -59,32 +59,32 @@ void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
 }
 
 void adicionarHospede(Quarto* quarto, int qtdQuartos) {
-   // Exibindo quartos disponï¿½veis;
+   // Exibindo quartos disponíveis;
 	exibirQuartosDisponiveis(quarto, qtdQuartos);
 
 	int numQuarto = 0;
 
-	printf("Insira o nï¿½mero do quarto: ");
+	printf("Insira o número do quarto: ");
 	while(scanf("%d", &numQuarto) != 1 || numQuarto < 1 || numQuarto > QTD_MAX_QUARTOS) {
-		printf("Nï¿½mero invï¿½lido. Insira novamente: ");
+		printf("Número inválido. Insira um número válido: ");
 		while(getchar() != '\n');
 	}
 
-	// Verificando se o quarto estï¿½ disponï¿½vel;
+	// Verificando se o quarto está disponível;
 	if(strcmp(quarto[numQuarto - 1].status, "Disponivel") == 0) {
 		Hospede* hospede = (Hospede*) malloc(sizeof(Hospede));
 
 		if(hospede == NULL) {
-			printf("Erro ao alocar memï¿½ria. Encerrando o programa...");
+			printf("Erro ao alocar memória. Encerrando o programa...");
 			exit(1);
 		} else {
 			printf("Digite o nome do hospede: ");
 			while(scanf(" %[^\n]", hospede->nome) != 1) {
-				printf("Erro ao ler o nome do hï¿½spede, tente novamente: ");
+				printf("Erro ao ler o nome do hóspede, tente novamente: ");
 				while(getchar() != '\n');
 			};
 
-			// Adicionando hï¿½spede ao quarto e incrementando a quantidade total de hï¿½spedes do quarto;
+			// Adicionando hóspede ao quarto e incrementando a quantidade total de hóspedes do quarto;
 			quarto[numQuarto - 1].hospede[quarto[numQuarto - 1].qtdHospede] = *hospede;
 			quarto[numQuarto - 1].qtdHospede++;
 
@@ -92,10 +92,10 @@ void adicionarHospede(Quarto* quarto, int qtdQuartos) {
 			if(quarto[numQuarto - 1].qtdHospede == (QTD_MAX_HOSPEDE / QTD_MAX_QUARTOS)) strcpy(quarto[numQuarto - 1].status, "Ocupado");
 		}
 
-		// Liberando a memï¿½ria do hospede;
+		// Liberando a memória do hospede;
 		free(hospede);
 	} else {
-		printf("Quarto nï¿½o disponï¿½vel, tente novamente.\n");
+		printf("Quarto não disponível, tente novamente.\n");
 	}
 }
 
@@ -132,12 +132,12 @@ void quickSort(Hospede* hospede, int left, int right) {
 	}
 }
 
-// Aloca todos os hï¿½spedes em uma struct Hospede;
+// Aloca todos os hóspedes em uma struct Hospede;
 Hospede* guardarHospedes(Quarto* quarto, int qtdQuartos, int* qtdTotalHospedes) {
 	Hospede* hospede = (Hospede*) malloc(QTD_MAX_HOSPEDE * sizeof(Hospede));
 
 	if(hospede == NULL) {
-		printf("Erro ao alocar a memï¿½ria. Encerrando o programa...\n");
+		printf("Erro ao alocar memória. Encerrando o programa...\n");
 		exit(1);
 	} else {
 		for(int i = 0; i < qtdQuartos; i++) {
@@ -153,21 +153,19 @@ Hospede* guardarHospedes(Quarto* quarto, int qtdQuartos, int* qtdTotalHospedes) 
 }
 
 void listarHospedes(Hospede* hospede, int qtdHospedes) {
-	printf("Hï¿½spedes:\n\n");
+	printf("Hóspedes:\n\n");
 
 	for(int i = 0; i < qtdHospedes; i++) {
-		printf("%dï¿½ - %s\n", i + 1, hospede[i].nome);
+		printf("%dº - %s\n", i + 1, hospede[i].nome);
 	}
 
 	printf("\n");
 }
 
 
-// TODO: Arrumar o retorno da funï¿½ï¿½o e excluir printf dela;
-
-
- char buscarHospedePorNome(Quarto* quarto, int qtdQuartos) {
-	char nome[MAX], nomeNovo[MAX];
+// TODO: Arrumar o retorno da função e excluir printf() dela;
+char* buscarHospedePorNome(Quarto* quarto, int qtdQuartos) {
+	char nome[MAX_CHAR], nomeNovo[MAX_CHAR];
 	int encontrado = 0;
 
 	printf("Digite o nome do hospede a ser buscado: ");
@@ -177,7 +175,7 @@ void listarHospedes(Hospede* hospede, int qtdHospedes) {
 		for(int j = 0; j < quarto[i].qtdHospede; j++) {
 			if(strcmp(quarto[i].hospede[j].nome, nome) == 0) {
 				strcpy(nomeNovo, quarto[i].hospede[j].nome);
-				printf("Hospede encontrado:\n");
+				printf("Hóspede encontrado:\n");
 				printf("Quarto: %d\n", quarto[i].num);
 				printf("Nome: %s\n", quarto[i].hospede[j].nome);
 				encontrado = 1;
@@ -188,15 +186,25 @@ void listarHospedes(Hospede* hospede, int qtdHospedes) {
 	}
 
 	if(!encontrado) {
-		printf("Hospede nao encontrado.\n");
+		printf("Hóspede não encontrado.\n");
 	}
 	return nomeNovo;
 }
 
+void quartoVazio(Quarto* quarto, int qtdHospede) {
+  for (int i = 0; i < QTD_MAX_QUARTOS; i++) {
+    if (quarto[i].qtdHospede == 0) {
+      printf("%d\n", quarto[i].num);
 
-//--------------------------------------- FUNï¿½ï¿½ES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
+    } else {
+      continue;
+    }
+  }
+}
 
-// Alocar quartos no arquivo (Aloca todos os quartos como disponï¿½vel e deleta os hï¿½spedes);
+//--------------------------------------- FUNÇÕES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
+
+// Alocar quartos no arquivo (Aloca todos os quartos como disponível e deleta os hóspedes);
 void alocarQuartos(FILE* arquivo) {
 	arquivo = fopen(CAMINHO_ARQUIVO, "w");
 
@@ -212,15 +220,15 @@ void alocarQuartos(FILE* arquivo) {
 	fclose(arquivo);
 }
 
-// Exibe informaï¿½ï¿½es da struct Quarto;
+// Exibe informações da struct Quarto;
 void exibirQuartos(Quarto* quarto, int qtdQuartos) {
 	for(int i = 0; i < qtdQuartos; i++) {
-		printf("Nï¿½: %d\n", quarto[i].num);
+		printf("Nº do quarto: %d\n", quarto[i].num);
 		printf("Status: %s\n", quarto[i].status);
-		printf("Nï¿½ de hï¿½spedes: %d\n", quarto[i].qtdHospede);
+		printf("Nº de hóspedes: %d\n", quarto[i].qtdHospede);
 
 		if(quarto[i].qtdHospede > 0) {
-			printf("Hï¿½spedes:\n");
+			printf("Hóspedes:\n");
 			for(int j = 0; j < quarto[i].qtdHospede; j++) {
 				printf(" - %s\n", quarto[i].hospede[j].nome);
 			}
@@ -241,13 +249,14 @@ void limparTela() {
 	#endif
 }
 
+// Pausa a tela do console;
 void pausarTela() {
 	printf("Pressione ENTER para continuar...\n");
 	while(getchar() != '\n');
 	getchar();
 }
 
-// Configura o ambiente de execuï¿½ï¿½o;
+// Configura o ambiente de execução;
 void configurarAmbiente() {
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
@@ -255,38 +264,16 @@ void configurarAmbiente() {
 	char* local = setlocale(LC_ALL, "");
 
 	printf("Configurando a localidade:\n\n");
-	printf("Localidade padrï¿½o do sistema: %s\n", local);
+	printf("Localidade padrão do sistema: %s\n", local);
 
 	if(local != NULL && strcmp(local, "Portuguese_Brazil.1252") == 0) {
-		printf("Localidade jï¿½ estï¿½ configurada!\n\n");
+		printf("Localidade já está configurada!\n\n");
 	} else {
-		printf("Configurando a localidade para Portuguï¿½s do Brasil...\n");
-
-		setlocale(LC_ALL, "Portuguese");
-		
-		printf("Localidade configurada para Portuguï¿½s com sucesso!\n\n");
+		printf("Configurando a localidade para Português do Brasil...\n");
+		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "Portuguese"));
 	}
 
 	pausarTela();
 }
-//----------------------------------------------------------------//
 
-void limpar_buffer(){
-
-char ch;
-  while ((ch = getchar()) != '\n' && ch != EOF);
-  }
-
-  static void quartoVazio(Quarto *quarto, int qtdHospede) {
-
-  for (int i = 0; i < QTD_MAX_QUARTOS; i++) {
-
-    if (quarto[i].qtdHospede == 0) {
-      printf("%d\n", quarto[i].num);
-
-    } else {
-      continue;
-    }
-
-  }
-}
+//-------------------------------------------------------------------------------------------------------------------//

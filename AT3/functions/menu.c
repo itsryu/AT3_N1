@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-#include "../headers/types.h"
-#include "../headers/functions.h"
+#include "../include/types.h"
+#include "../include/functions.h"
 
+// Menu principal do programa;
 void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	int opcao = 0;
 
@@ -12,7 +13,7 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 		printf("1. Inserir hóspedes em um quarto vazio\n2. Listar hóspedes por ordem alfabética\n3. Buscar hóspede\n");
 		printf("4. Editar hóspede\n5. Liberar um quarto\n6. Mostrar os números dos quartos vazios\n7. Salvar lista de hóspedes com respectivos quartos em arquivo.\n\n");
 		printf("Pressione 0 para sair do programa\n");
-		printf("Digite o numero da opcao desejada: ");
+		printf("Digite o número da opção desejada: ");
 
 		while(scanf("%d", &opcao) != 1) {
 			printf("Opção inválida. Digite novamente: ");
@@ -24,7 +25,6 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 			{
 				limparTela();
 				adicionarHospede(quarto, *qtdQuartos);
-
 				pausarTela();
 				break;
 			}

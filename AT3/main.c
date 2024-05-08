@@ -1,48 +1,46 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#include "./headers/types.h"
-#include "./headers/functions.h"
+#include "./include/types.h"
+#include "./include/functions.h"
 
-// TODO: Criar funÃ§Ã£o para buscar hÃ³spede pelo nome (possuir retorno pois serÃ¡ utilizado na funÃ§Ã£o para editar um hÃ³spede);
-// TODO: Criar um README.md com as instruÃ§Ãµes de como compilar e executar o programa;
-// TODO: Criar uma funÃ§Ã£o para editar determinado hÃ³spede;
-// TODO: Criar funÃ§Ã£o para exibir os quartos vazios;
+// TODO: Criar função para buscar hóspede pelo nome (possuir retorno pois será utilizado na função para editar um hóspede);
+// TODO: Criar um README.md com as instruções de como compilar e executar o programa;
+// TODO: Criar uma função para editar determinado hóspede;
+// TODO: Criar função para exibir os quartos vazios;
 
-// FunÃ§Ã£o principal;
+// Função principal;
 int main(void) {
-	// Configurando o ambiente de execuÃ§Ã£o;
+	// Configurando o ambiente de execução;
 	configurarAmbiente();
 
 	FILE* arquivo = fopen(CAMINHO_ARQUIVO, "r");
 
 	if(arquivo == NULL) {
-		printf("NÃ£o foi possÃ­vel abrir o arquivo. Encerrando o programa...\n");
+		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
 		return 1;
 	} else {
 		Quarto* quarto = (Quarto*) malloc(QTD_MAX_QUARTOS * sizeof(Quarto));
 
 		if(quarto == NULL) {
-			printf("NÃ£o foi possÃ­vel alocar a memÃ³ria. Encerrando o programa...\n");
+			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
 			exit(1);
 		} else {
 			int qtdQuartos = 0;
 
-			// Lendo o arquivo e salvando as informaÃ§Ãµes na struct Quarto;
+			// Lendo o arquivo e salvando as informações na struct Quarto;
 			lerArquivo(arquivo, quarto, &qtdQuartos);
 
 			// Exibindo o menu principal;
 			exibirMenu(arquivo, quarto, &qtdQuartos);
 		}
 
-		// Liberando memÃ³ria alocada;
+		// Liberando memória alocada;
 		free(quarto);
 	}
 
 	// Fechando o arquivo e encerrando o programa;
 	fclose(arquivo);
 	printf("Programa encerrado com sucesso!\n");
-
-	pausarTela();
 	return 0;
 }

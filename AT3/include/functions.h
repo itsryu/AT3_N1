@@ -2,7 +2,7 @@
 
 #include "stdio.h"
 
-#include "../headers/types.h"
+#include "../include/types.h"
 
 void limparTela();
 void pausarTela();
