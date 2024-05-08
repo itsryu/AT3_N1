@@ -261,7 +261,7 @@ void configurarAmbiente() {
 	system("color 0A");
 	system("title Gerenciamento de Hotel");
 
-	char* local = setlocale(LC_ALL, "");
+	char* local = setlocale(LC_ALL, NULL);
 
 	printf("Configurando a localidade:\n\n");
 	printf("Localidade padrão do sistema: %s\n", local);
@@ -269,8 +269,13 @@ void configurarAmbiente() {
 	if(local != NULL && strcmp(local, "Portuguese_Brazil.1252") == 0) {
 		printf("Localidade já está configurada!\n\n");
 	} else {
+		#ifdef _WIN32
 		printf("Configurando a localidade para Português do Brasil...\n");
 		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "Portuguese"));
+		#elif __linux__
+		printf("Configurando a localidade para Português do Brasil...\n");
+		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "pt_BR.UTF-8"));
+		#endif
 	}
 
 	pausarTela();
