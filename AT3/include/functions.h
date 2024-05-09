@@ -22,3 +22,4 @@ void trocarValores(Hospede* a, Hospede* b);
 void limpar_buffer ();
 char buscarhospede (Quarto* quarto, int qtdQuartos);
 void quartoVazio (Quarto *quarto, int qtdHospede);
+void editarHospede (Quarto* quarto, int qtdQuartos);

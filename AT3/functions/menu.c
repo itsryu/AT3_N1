@@ -6,17 +6,18 @@
 // Menu principal do programa;
 void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	int opcao = 0;
+	char nome[MAX_CHAR];
 
 	do {
 		limparTela();
-		printf("---------- Gerenciador de Hóspede ----------\n\n");
-		printf("1. Inserir hóspedes em um quarto vazio\n2. Listar hóspedes por ordem alfabética\n3. Buscar hóspede\n");
-		printf("4. Editar hóspede\n5. Liberar um quarto\n6. Mostrar os números dos quartos vazios\n7. Salvar lista de hóspedes com respectivos quartos em arquivo.\n\n");
+		printf("---------- Gerenciador de Hï¿½spede ----------\n\n");
+		printf("1. Inserir hï¿½spedes em um quarto vazio\n2. Listar hï¿½spedes por ordem alfabï¿½tica\n3. Buscar hï¿½spede\n");
+		printf("4. Editar hï¿½spede\n5. Liberar um quarto\n6. Mostrar os nï¿½meros dos quartos vazios\n7. Salvar lista de hï¿½spedes com respectivos quartos em arquivo.\n\n");
 		printf("Pressione 0 para sair do programa\n");
-		printf("Digite o número da opção desejada: ");
+		printf("Digite o nï¿½mero da opï¿½ï¿½o desejada: ");
 
 		while(scanf("%d", &opcao) != 1) {
-			printf("Opção inválida. Digite novamente: ");
+			printf("Opï¿½ï¿½o invï¿½lida. Digite novamente: ");
 			while(getchar() != '\n');
 		}
 
@@ -43,13 +44,16 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 			case 3:
 			{
 				limparTela();
+				printf("Digite o nome do hospede a ser buscado: ");
+				scanf(" %[^\n]", nome);
+				Hospede buscarHospedePorNome(Quarto* quarto, int qtdQuartos);
 				pausarTela();
 				break;
 			}
 			case 4:
 			{
-				printf("xxx\n");
-				// funcionalidade aqui;
+				limparTela();
+				void editarHospede (Quarto* quarto, int qtdQuartos);
 				pausarTela();
 				break;
 			}
@@ -63,7 +67,7 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 			case 6:
 			{
 				limparTela();
-				exibirQuartosDisponiveis(quarto, *qtdQuartos);
+				void quartoVazio (Quarto *quarto, int qtdHospede);
 				pausarTela();
 				break;
 			}

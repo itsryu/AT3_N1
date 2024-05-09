@@ -167,10 +167,9 @@ void listarHospedes(Hospede* hospede, int qtdHospedes) {
 Hospede buscarHospedePorNome(Quarto* quarto, int qtdQuartos) {
 	char nome[MAX_CHAR];
 	int encontrado = 0;
-	Hospede hospedeencontrado;
+	Hospede hospedeEncontrado;
 
-	printf("Digite o nome do hospede a ser buscado: ");
-	scanf(" %[^\n]", nome);
+	
 
 	for(int i = 0; i < qtdQuartos; i++) {
 		for(int j = 0; j < quarto[i].qtdHospede; j++) {
@@ -189,7 +188,7 @@ Hospede buscarHospedePorNome(Quarto* quarto, int qtdQuartos) {
 	if(!encontrado) {
 		printf("H�spede n�o encontrado.\n");
 	}
-	return hospedeencontrado;
+	return hospedeEncontrado;
 }
 
 void quartoVazio(Quarto* quarto, int qtdHospede) {
@@ -202,6 +201,22 @@ void quartoVazio(Quarto* quarto, int qtdHospede) {
     }
   }
 }
+
+void editarHospede (Quarto* quarto, int qtdQuartos) {
+
+	Hospede hospedeAtu = buscarHospedePorNome (quarto, qtdQuartos);
+	if (strlen(hospedeAtu.nome) > 0) {
+        char novoNome[MAX_CHAR];
+        printf("Digite o novo nome para o hóspede: ");
+        scanf(" %[^\n]", novoNome);
+		strcpy(hospedeAtu.nome, novoNome);
+		printf ("Hospede atualizado com sucesso");
+		} else {
+			printf ("Hospede não encontrado");
+		}
+
+
+} 
 
 //--------------------------------------- FUN��ES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
 
