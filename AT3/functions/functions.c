@@ -7,7 +7,7 @@
 #include "../include/types.h"
 #include "../include/functions.h"
 
-// L� o arquivo e salva as informa��es na struct Quarto;
+// Le o arquivo e salva as informações na struct Quarto;
 void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	while(fscanf(arquivo, "%d;%[^;\n];", &quarto[*qtdQuartos].num, quarto[*qtdQuartos].status) != EOF) {
 		quarto[*qtdQuartos].qtdHospede = 0;
@@ -22,7 +22,7 @@ void lerArquivo(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	}
 }
 
-// Pega as informa��es da struct Quarto e salva no arquivo;
+// Pega as informações da struct Quarto e salva no arquivo;
 void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 	arquivo = fopen(CAMINHO_ARQUIVO, "w");
 
@@ -49,7 +49,7 @@ void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 }
 
 void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
-	printf("Quartos dispon�veis:\n");
+	printf("Quartos disponiveis:\n");
 	for(int i = 0; i < qtdQuartos; i++) {
 		if(strcmp(quarto[i].status, "Disponivel") == 0) {
 			printf(" %d |", quarto[i].num);
@@ -59,32 +59,32 @@ void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
 }
 
 void adicionarHospede(Quarto* quarto, int qtdQuartos) {
-   // Exibindo quartos dispon�veis;
+   // Exibindo quartos disponsaveis;
 	exibirQuartosDisponiveis(quarto, qtdQuartos);
 
 	int numQuarto = 0;
 
-	printf("Insira o n�mero do quarto: ");
+	printf("Insira o numero do quarto: ");
 	while(scanf("%d", &numQuarto) != 1 || numQuarto < 1 || numQuarto > QTD_MAX_QUARTOS) {
-		printf("N�mero inv�lido. Insira um n�mero v�lido: ");
+		printf("Numero invalido. Insira um numero valido: ");
 		while(getchar() != '\n');
 	}
 
-	// Verificando se o quarto est� dispon�vel;
+	// Verificando se o quarto esta disponivel;
 	if(strcmp(quarto[numQuarto - 1].status, "Disponivel") == 0) {
 		Hospede* hospede = (Hospede*) malloc(sizeof(Hospede));
 
 		if(hospede == NULL) {
-			printf("Erro ao alocar mem�ria. Encerrando o programa...");
+			printf("Erro ao alocar memoria. Encerrando o programa...");
 			exit(1);
 		} else {
 			printf("Digite o nome do hospede: ");
 			while(scanf(" %[^\n]", hospede->nome) != 1) {
-				printf("Erro ao ler o nome do h�spede, tente novamente: ");
+				printf("Erro ao ler o nome do hospede, tente novamente: ");
 				while(getchar() != '\n');
 			};
 
-			// Adicionando h�spede ao quarto e incrementando a quantidade total de h�spedes do quarto;
+			// Adicionando hospede ao quarto e incrementando a quantidade total de hospedes do quarto;
 			quarto[numQuarto - 1].hospede[quarto[numQuarto - 1].qtdHospede] = *hospede;
 			quarto[numQuarto - 1].qtdHospede++;
 
@@ -92,10 +92,10 @@ void adicionarHospede(Quarto* quarto, int qtdQuartos) {
 			if(quarto[numQuarto - 1].qtdHospede == (QTD_MAX_HOSPEDE / QTD_MAX_QUARTOS)) strcpy(quarto[numQuarto - 1].status, "Ocupado");
 		}
 
-		// Liberando a mem�ria do hospede;
+		// Liberando a memoria do hospede;
 		free(hospede);
 	} else {
-		printf("Quarto n�o dispon�vel, tente novamente.\n");
+		printf("Quarto nao disponivel, tente novamente.\n");
 	}
 }
 
@@ -132,12 +132,12 @@ void quickSort(Hospede* hospede, int left, int right) {
 	}
 }
 
-// Aloca todos os h�spedes em uma struct Hospede;
+// Aloca todos os hospedes em uma struct Hospede;
 Hospede* guardarHospedes(Quarto* quarto, int qtdQuartos, int* qtdTotalHospedes) {
 	Hospede* hospede = (Hospede*) malloc(QTD_MAX_HOSPEDE * sizeof(Hospede));
 
 	if(hospede == NULL) {
-		printf("Erro ao alocar mem�ria. Encerrando o programa...\n");
+		printf("Erro ao alocar memoria. Encerrando o programa...\n");
 		exit(1);
 	} else {
 		for(int i = 0; i < qtdQuartos; i++) {
@@ -153,10 +153,10 @@ Hospede* guardarHospedes(Quarto* quarto, int qtdQuartos, int* qtdTotalHospedes) 
 }
 
 void listarHospedes(Hospede* hospede, int qtdHospedes) {
-	printf("H�spedes:\n\n");
+	printf("Hospedes:\n\n");
 
 	for(int i = 0; i < qtdHospedes; i++) {
-		printf("%d� - %s\n", i + 1, hospede[i].nome);
+		printf("%dº - %s\n", i + 1, hospede[i].nome);
 	}
 
 	printf("\n");
@@ -219,9 +219,9 @@ void exibirQuartosOcupados(Quarto* quarto, int qtdQuartos) {
 		}
 	}
 }
-//--------------------------------------- FUN��ES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
+//--------------------------------------- FUNÇÕES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
 
-// Alocar quartos no arquivo (Aloca todos os quartos como dispon�vel e deleta os h�spedes);
+// Alocar quartos no arquivo (Aloca todos os quartos como disponivel e deleta os hospedes);
 void alocarQuartos(FILE* arquivo) {
 	arquivo = fopen(CAMINHO_ARQUIVO, "w");
 
@@ -237,15 +237,15 @@ void alocarQuartos(FILE* arquivo) {
 	fclose(arquivo);
 }
 
-// Exibe informa��es da struct Quarto;
+// Exibe informações da struct Quarto;
 void exibirQuartos(Quarto* quarto, int qtdQuartos) {
 	for(int i = 0; i < qtdQuartos; i++) {
-		printf("N� do quarto: %d\n", quarto[i].num);
+		printf("Nº do quarto: %d\n", quarto[i].num);
 		printf("Status: %s\n", quarto[i].status);
-		printf("N� de h�spedes: %d\n", quarto[i].qtdHospede);
+		printf("Nº de hospedes: %d\n", quarto[i].qtdHospede);
 
 		if(quarto[i].qtdHospede > 0) {
-			printf("H�spedes:\n");
+			printf("Hospedes:\n");
 			for(int j = 0; j < quarto[i].qtdHospede; j++) {
 				printf(" - %s\n", quarto[i].hospede[j].nome);
 			}
@@ -273,7 +273,7 @@ void pausarTela() {
 	getchar();
 }
 
-// Configura o ambiente de execu��o;
+// Configura o ambiente de execução;
 void configurarAmbiente() {
 	#ifdef _WIN32
 	system("color 0A");
@@ -283,16 +283,16 @@ void configurarAmbiente() {
 	char* local = setlocale(LC_ALL, "");
 
 	printf("Configurando a localidade:\n\n");
-	printf("Localidade padr�o do sistema: %s\n", local);
+	printf("Localidade padrao do sistema: %s\n", local);
 
 	if(local != NULL && strcmp(local, "Portuguese_Brazil.1252") == 0) {
-		printf("Localidade j� est� configurada!\n\n");
+		printf("Localidade ja esta configurada!\n\n");
 	} else {
 		#ifdef _WIN32
-		printf("Configurando a localidade para Portugu�s do Brasil...\n");
+		printf("Configurando a localidade para Portugues do Brasil...\n");
 		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "Portuguese"));
 		#elif __linux__
-		printf("Configurando a localidade para Portugu�s do Brasil...\n");
+		printf("Configurando a localidade para Portugues do Brasil...\n");
 		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "pt_BR.UTF-8"));
 		#endif
 	}

@@ -4,38 +4,38 @@
 #include "./include/types.h"
 #include "./include/functions.h"
 
-// TODO: Criar função para buscar hóspede pelo nome (possuir retorno pois será utilizado na função para editar um hóspede);
-// TODO: Criar um README.md com as instruções de como compilar e executar o programa;
-// TODO: Criar uma função para editar determinado hóspede;
-// TODO: Criar função para exibir os quartos vazios;
+// TODO: Criar funÃ§ao para buscar hospede pelo nome (possuir retorno pois serÃ¡ utilizado na funÃ§Ã£o para editar um hospede);
+// TODO: Criar um README.md com as instruÃ§Ã£es de como compilar e executar o programa;
+// TODO: Criar uma funÃ§Ã£o para editar determinado hospede;
+// TODO: Criar fuÃ§Ã£o para exibir os quartos vazios;
 
-// Função principal;
+// Funï¿½ï¿½o principal;
 int main(void) {
-	// Configurando o ambiente de execução;
+	// Configurando o ambiente de execuï¿½ï¿½o;
 	configurarAmbiente();
 
 	FILE* arquivo = fopen(CAMINHO_ARQUIVO, "r");
 
 	if(arquivo == NULL) {
-		printf("Não foi possível abrir o arquivo. Encerrando o programa...\n");
+		printf("NÃ£o foi possivel abrir o arquivo. Encerrando o programa...\n");
 		return 1;
 	} else {
 		Quarto* quarto = (Quarto*) malloc(QTD_MAX_QUARTOS * sizeof(Quarto));
 
 		if(quarto == NULL) {
-			printf("Não foi possível alocar a memória. Encerrando o programa...\n");
+			printf("NÃ£o foi possivel alocar a memoria. Encerrando o programa...\n");
 			return 1;
 		} else {
 			int qtdQuartos = 0;
 
-			// Lendo o arquivo e salvando as informações na struct Quarto;
+			// Lendo o arquivo e salvando as informaï¿½ï¿½es na struct Quarto;
 			lerArquivo(arquivo, quarto, &qtdQuartos);
 
 			// Exibindo o menu principal;
 			exibirMenu(arquivo, quarto, &qtdQuartos);
 		}
 
-		// Liberando memória alocada;
+		// Liberando memï¿½ria alocada;
 		free(quarto);
 	}
 

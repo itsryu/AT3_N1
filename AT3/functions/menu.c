@@ -9,14 +9,14 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 
 	do {
 		limparTela();
-		printf("---------- Gerenciador de H�spede ----------\n\n");
-		printf("1. Inserir h�spedes em um quarto vazio\n2. Listar h�spedes por ordem alfab�tica\n3. Buscar h�spede\n");
-		printf("4. Editar h�spede\n5. Liberar um quarto\n6. Mostrar os n�meros dos quartos vazios\n7. Salvar lista de h�spedes com respectivos quartos em arquivo.\n\n");
+		printf("---------- Gerenciador de Hospede ----------\n\n");
+		printf("1. Inserir hospedes em um quarto vazio\n2. Listar hospedes por ordem alfabetica\n3. Buscar hospede\n");
+		printf("4. Editar hospede\n5. Liberar um quarto\n6. Mostrar os numeros dos quartos vazios\n7. Salvar lista de hospedes com respectivos quartos em arquivo.\n\n");
 		printf("Pressione 0 para sair do programa\n");
-		printf("Digite o n�mero da op��o desejada: ");
+		printf("Digite o numero da opcao desejada: ");
 
 		while(scanf("%d", &opcao) != 1) {
-			printf("Op��o inv�lida. Digite novamente: ");
+			printf("Opção invalida. Digite novamente: ");
 			while(getchar() != '\n');
 		}
 
