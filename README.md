@@ -30,12 +30,17 @@
                     <pre><code>git clone https://github.com/itsryu/AT3_N1.git</code></pre>
                 </li>
                 <li>
-                    <strong>Compilação:</strong> Vá para a pasta AT3 dentro de onde o projeto foi clonado e compile o
+                    <strong>Compilação:</strong> Vá para a pasta AT3 dentro de onde o projeto foi clonado e execute o arquivo windows.bat (Windows) ou linux.sh (Linux):
+                    <pre><code>windows.bat</code></pre>
+                    <pre><code>sudo sh linux.bat</code></pre>
+                </li>
+                <li>
+                    <strong>Compilação:</strong> Ou se quiser compilar utilizando linha de comando abra um terminal na pasta AT3 dentro de onde o projeto foi clonado e compile o
                     programa utilizando o GCC (GNU Compiler Collection):
                     <pre><code>gcc ./functions/functions.c ./functions/menu.c ./main.c -o main.exe</code></pre>
                 </li>
                 <li>
-                    <strong>Execução:</strong> Após a compilação, execute o arquivo 'gerenciador.exe' para inicializar o
+                    <strong>Execução:</strong> Após a compilação, execute o arquivo 'main.exe' para inicializar o
                     programa.
                     <pre><code>main.exe</code></pre>
                 </li>
@@ -49,7 +54,7 @@
                 <li><strong>GitHub</strong> (Utilizada para o versionamento)</li>
                 <li><strong>Discord</strong> (Utilizado para comunicação entre os desenvolvedores)</li>
             </ol>
-            <h2 align="center">Autores</h2>
+            <h2 align="center">Desenvolvedores</h2>
             <table align="center">
                 <thead>
                     <tr>
