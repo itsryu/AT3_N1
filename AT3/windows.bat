@@ -1,12 +1,13 @@
-@echo off
+#!/bin/bash
 
-gcc ./functions/functions.c ./functions/menu.c ./main.c -o main.exe
+dir="/caminho/para/seu/diretorio"
 
-if %errorlevel% equ 0 (
-	cls
-	main.exe
-) else (
-	echo Erro ao compilar o programa.
-)
+cd "$dir" && gcc ./functions/functions.c ./functions/menu.c ./main.c -o main
 
-pause
+if [ $? -eq 0 ]; then
+    clear && ./main
+else
+    echo Erro ao compilar o programa.
+fi
+
+read

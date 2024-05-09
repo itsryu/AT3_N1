@@ -1,12 +1,13 @@
-#!/bin/bash
+@echo off
 
-gcc ./functions/functions.c ./functions/menu.c ./main.c -o main
+set dir=C:\Users\joaov\source\repos\itsryu\AT3\AT3
 
-if [ $? -eq 0 ]; then
-    clear
-    ./main
-else
-    echo Erro ao compilar o programa
-fi
+cd %dir% && gcc ./functions/functions.c ./functions/menu.c ./main.c -o main.exe
 
-read
+if %errorlevel% equ 0 (
+    cls && start cmd /k main.exe
+) else (
+    echo Erro ao compilar o programa.
+)
+
+pause
