@@ -1,13 +1,13 @@
-@echo off
+#!/bin/bash
 
-set dir=C:\Users\joaov\source\repos\itsryu\AT3\AT3
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd %dir% && gcc ./functions/functions.c ./functions/menu.c ./main.c -o main.exe
+cd "$dir" && gcc ./functions/functions.c ./functions/menu.c ./main.c -o main
 
-if %errorlevel% equ 0 (
-    cls && start cmd /k main.exe
-) else (
+if [ $? -eq 0 ]; then
+    clear && ./main
+else
     echo Erro ao compilar o programa.
-)
+fi
 
-pause
+read

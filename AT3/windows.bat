@@ -1,13 +1,13 @@
-#!/bin/bash
+@echo off
 
-dir="/caminho/para/seu/diretorio"
+set dir=%~dp0
 
-cd "$dir" && gcc ./functions/functions.c ./functions/menu.c ./main.c -o main
+cd %dir% && gcc ./functions/functions.c ./functions/menu.c ./main.c -o main.exe
 
-if [ $? -eq 0 ]; then
-    clear && ./main
-else
+if %errorlevel% equ 0 (
+    cls && start cmd /k main.exe
+) else (
     echo Erro ao compilar o programa.
-fi
+)
 
-read
+pause
