@@ -218,6 +218,7 @@ void exibirQuartosOcupados(Quarto* quarto, int qtdQuartos) {
 			printf("%d |", quarto[i].num);
 		}
 	}
+	printf("\n");
 }
 //--------------------------------------- FUNÇÕES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
 
