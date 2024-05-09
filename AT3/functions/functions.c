@@ -162,62 +162,63 @@ void listarHospedes(Hospede* hospede, int qtdHospedes) {
 	printf("\n");
 }
 
-
-// TODO: Arrumar o retorno da fun��o e excluir printf() dela;
-Hospede buscarHospedePorNome(Quarto* quarto, int qtdQuartos) {
-	char nome[MAX_CHAR];
-	int encontrado = 0;
-	Hospede hospedeEncontrado;
-
-	
-
+Hospede* buscarHospede(Quarto* quarto, int qtdQuartos, char* nome) {
 	for(int i = 0; i < qtdQuartos; i++) {
 		for(int j = 0; j < quarto[i].qtdHospede; j++) {
-			if(strcmp(quarto[i].hospede[j].nome, nome) == 0) {			
-				printf("H�spede encontrado:\n");
-				printf("Quarto: %d\n", quarto[i].num);
-				printf("Nome: %s\n", quarto[i].hospede[j].nome);
-				
-				encontrado = 1;
-				break;
+			if(strcmp(quarto[i].hospede[j].nome, nome) == 0) {
+				return &quarto[i].hospede[j];
 			}
 		}
-		if(encontrado) break;
 	}
 
-	if(!encontrado) {
-		printf("H�spede n�o encontrado.\n");
+	return NULL;
+}
+
+void editarHospede(Hospede* hospede) {
+	char novoNome[MAX_CHAR] = { "" };
+	printf("Digite o novo nome para o hóspede: ");
+	while(scanf(" %[^\n]", novoNome) != 1) {
+		printf("Nome inválido. Digite novamente: ");
 	}
-	return hospedeEncontrado;
+
+	strcpy(hospede->nome, novoNome);
+
+	printf("Hospede atualizado com sucesso!\n");
 }
 
-void quartoVazio(Quarto* quarto, int qtdHospede) {
-  for (int i = 0; i < QTD_MAX_QUARTOS; i++) {
-    if (quarto[i].qtdHospede == 0) {
-      printf("%d\n", quarto[i].num);
-
-    } else {
-      continue;
-    }
-  }
+void quartoVazio(Quarto* quarto) {
+	printf("Quartos vazios:\n");
+	for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
+		if(quarto[i].qtdHospede == 0) {
+			printf("%d | ", quarto[i].num);
+		} 
+	}
+	printf("\n");
 }
 
-void editarHospede (Quarto* quarto, int qtdQuartos) {
-
-	Hospede hospedeAtu = buscarHospedePorNome (quarto, qtdQuartos);
-	if (strlen(hospedeAtu.nome) > 0) {
-        char novoNome[MAX_CHAR];
-        printf("Digite o novo nome para o hóspede: ");
-        scanf(" %[^\n]", novoNome);
-		strcpy(hospedeAtu.nome, novoNome);
-		printf ("Hospede atualizado com sucesso");
-		} else {
-			printf ("Hospede não encontrado");
+void liberarQuarto(Quarto* quarto, int numQuarto) {
+	if(strcmp(quarto[numQuarto - 1].status, "Disponivel") == 0) {
+		printf("Quarto já está disponível.\n");
+	} else {
+		for(int i = 0; i < quarto[numQuarto - 1].qtdHospede; i++) {
+			quarto[numQuarto - 1].hospede[i].nome[0] = '\0';
 		}
+		
+		quarto[numQuarto - 1].qtdHospede = 0;
+		strcpy(quarto[numQuarto - 1].status, "Disponivel");
 
+		printf("Quarto liberado com sucesso!\n");
+	}
+}
 
-} 
-
+void exibirQuartosOcupados(Quarto* quarto, int qtdQuartos) {
+	printf("Número de quartos ocupados:\n");
+	for(int i = 0; i < qtdQuartos; i++) {
+		if(strcmp(quarto[i].status, "Ocupado") == 0) {
+			printf("%d |", quarto[i].num);
+		}
+	}
+}
 //--------------------------------------- FUN��ES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
 
 // Alocar quartos no arquivo (Aloca todos os quartos como dispon�vel e deleta os h�spedes);
@@ -279,7 +280,7 @@ void configurarAmbiente() {
 	system("title Gerenciamento de Hotel");
 	#endif
 
-	char* local = setlocale(LC_ALL, NULL);
+	char* local = setlocale(LC_ALL, "");
 
 	printf("Configurando a localidade:\n\n");
 	printf("Localidade padr�o do sistema: %s\n", local);
@@ -297,7 +298,7 @@ void configurarAmbiente() {
 	}
 
 	pausarTela();
-}
+	}
 
-//-------------------------------------------------------------------------------------------------------------------//
+	//-------------------------------------------------------------------------------------------------------------------//
 

@@ -6,7 +6,6 @@
 // Menu principal do programa;
 void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 	int opcao = 0;
-	char nome[MAX_CHAR];
 
 	do {
 		limparTela();
@@ -44,30 +43,63 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 			case 3:
 			{
 				limparTela();
+				char nome[MAX_CHAR];
+
 				printf("Digite o nome do hospede a ser buscado: ");
-				scanf(" %[^\n]", nome);
-				Hospede buscarHospedePorNome(Quarto* quarto, int qtdQuartos);
+				while(scanf(" %[^\n]", nome) != 1) {
+					printf("Nome inválido. Digite novamente: ");
+				}
+
+				Hospede* hospede = buscarHospede(quarto, *qtdQuartos, nome);
+
+				if(hospede != NULL) {
+					printf("Hóspede encontrado: %s\n", hospede->nome);
+				} else {
+					printf("Hóspede não encontrado\n");
+				}
+
 				pausarTela();
 				break;
 			}
 			case 4:
 			{
 				limparTela();
-				void editarHospede (Quarto* quarto, int qtdQuartos);
+				char nome[MAX_CHAR];
+
+				printf("Digite o nome do hospede a ser editado: ");
+				while(scanf(" %[^\n]", nome) != 1) {
+					printf("Nome inválido. Digite novamente: ");
+				}
+
+				Hospede* hospede = buscarHospede(quarto, *qtdQuartos, nome);
+
+				if(hospede != NULL) {
+					editarHospede(hospede);
+				} else {
+					printf("Hóspede não encontrado\n");
+				}
+
 				pausarTela();
 				break;
 			}
 			case 5:
 			{
-				printf("xxx\n");
-				// funcionalidade aqui;
+				int numQuarto = 0;
+				exibirQuartosOcupados(quarto, *qtdQuartos);
+
+				printf("Digite o número do quarto a ser liberado: ");
+				while(scanf("%d", &numQuarto) != 1 || numQuarto < 1 || numQuarto > QTD_MAX_QUARTOS) {
+					printf("Número de quarto inválido, tente novamente: ");
+				}
+
+				liberarQuarto(quarto, numQuarto);
 				pausarTela();
 				break;
 			}
 			case 6:
 			{
 				limparTela();
-				void quartoVazio (Quarto *quarto, int qtdHospede);
+				quartoVazio(quarto);
 				pausarTela();
 				break;
 			}
