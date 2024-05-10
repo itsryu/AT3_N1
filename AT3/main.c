@@ -4,11 +4,6 @@
 #include "./include/types.h"
 #include "./include/functions.h"
 
-// TODO: Criar funçao para buscar hospede pelo nome (possuir retorno pois será utilizado na função para editar um hospede);
-// TODO: Criar um README.md com as instruçães de como compilar e executar o programa;
-// TODO: Criar uma função para editar determinado hospede;
-// TODO: Criar fução para exibir os quartos vazios;
-
 // Fun��o principal;
 int main(void) {
 	// Configurando o ambiente de execu��o;
