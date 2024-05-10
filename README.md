@@ -32,7 +32,7 @@
                 <li>
                     <strong>Compilação:</strong> Vá para a pasta AT3 dentro de onde o projeto foi clonado e execute o arquivo windows.bat (Windows) ou linux.sh (Linux):
                     <pre><code>windows.bat</code></pre>
-                    <pre><code>sudo sh linux.bat</code></pre>
+                    <pre><code>sh linux.sh</code></pre>
                 </li>
                 <li>
                     <strong>Compilação:</strong> Ou se quiser compilar utilizando linha de comando abra um terminal na pasta AT3 dentro de onde o projeto foi clonado e compile o
