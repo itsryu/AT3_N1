@@ -26,14 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\functions.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\types.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="guests.csv">
       <Filter>Arquivos de Recurso</Filter>
     </None>
@@ -42,5 +34,13 @@
       <Filter>Arquivos de Origem</Filter>
     </None>
     <None Include="linux.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\functions.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="include\types.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,8 +34,12 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 				int qtdTotalHospedes = 0;
 				Hospede* hospede = guardarHospedes(quarto, *qtdQuartos, &qtdTotalHospedes);
 
-				quickSort(hospede, 0, qtdTotalHospedes - 1);
-				listarHospedes(hospede, qtdTotalHospedes);
+				if(qtdTotalHospedes) {
+					quickSort(hospede, 0, qtdTotalHospedes - 1);
+					exibirHospedes(hospede, qtdTotalHospedes);
+				} else {
+					printf("Nao ha nenhum hospede registrado.\n\n");
+				}
 
 				pausarTela();
 				break;
@@ -84,22 +88,28 @@ void exibirMenu(FILE* arquivo, Quarto* quarto, int* qtdQuartos) {
 			}
 			case 5:
 			{
+				limparTela();
 				int numQuarto = 0;
-				exibirQuartosOcupados(quarto, *qtdQuartos);
+				int qtdQuartosOcupados = 0;
+				exibirQuartosOcupados(quarto, *qtdQuartos, &qtdQuartosOcupados);
 
-				printf("Digite o número do quarto a ser liberado: ");
-				while(scanf("%d", &numQuarto) != 1 || numQuarto < 1 || numQuarto > QTD_MAX_QUARTOS) {
-					printf("Número de quarto inválido, tente novamente: ");
+				if(qtdQuartosOcupados) {
+					printf("Digite o número do quarto a ser liberado: ");
+					while(scanf("%d", &numQuarto) != 1 || numQuarto < 1 || numQuarto > QTD_MAX_QUARTOS) {
+						printf("Número de quarto inválido, tente novamente: ");
+					}
+
+					liberarQuarto(quarto, numQuarto);
+				} else {
+					printf("Nao ha quartos ocupados.\n");
 				}
-
-				liberarQuarto(quarto, numQuarto);
 				pausarTela();
 				break;
 			}
 			case 6:
 			{
 				limparTela();
-				quartoVazio(quarto);
+				exibirQuartosVazios(quarto);
 				pausarTela();
 				break;
 			}

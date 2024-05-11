@@ -4,9 +4,9 @@
 #include "./include/types.h"
 #include "./include/functions.h"
 
-// Fun��o principal;
+// Função principal;
 int main(void) {
-	// Configurando o ambiente de execu��o;
+	// Configurando o ambiente de execução;
 	configurarAmbiente();
 
 	FILE* arquivo = fopen(CAMINHO_ARQUIVO, "r");
@@ -23,14 +23,14 @@ int main(void) {
 		} else {
 			int qtdQuartos = 0;
 
-			// Lendo o arquivo e salvando as informa��es na struct Quarto;
+			// Lendo o arquivo e salvando as informações na struct Quarto;
 			lerArquivo(arquivo, quarto, &qtdQuartos);
 
 			// Exibindo o menu principal;
 			exibirMenu(arquivo, quarto, &qtdQuartos);
 		}
 
-		// Liberando mem�ria alocada;
+		// Liberando memória alocada;
 		free(quarto);
 	}
 

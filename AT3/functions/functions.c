@@ -48,16 +48,6 @@ void salvarArquivo(FILE* arquivo, Quarto* quarto, int qtdQuartos) {
 	}
 }
 
-void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
-	printf("Quartos disponiveis:\n");
-	for(int i = 0; i < qtdQuartos; i++) {
-		if(strcmp(quarto[i].status, "Disponivel") == 0) {
-			printf(" %d |", quarto[i].num);
-		}
-	}
-	printf("\n\n");
-}
-
 void adicionarHospede(Quarto* quarto, int qtdQuartos) {
    // Exibindo quartos disponsaveis;
 	exibirQuartosDisponiveis(quarto, qtdQuartos);
@@ -152,16 +142,6 @@ Hospede* guardarHospedes(Quarto* quarto, int qtdQuartos, int* qtdTotalHospedes) 
 	return hospede;
 }
 
-void listarHospedes(Hospede* hospede, int qtdHospedes) {
-	printf("Hospedes:\n\n");
-
-	for(int i = 0; i < qtdHospedes; i++) {
-		printf("%dº - %s\n", i + 1, hospede[i].nome);
-	}
-
-	printf("\n");
-}
-
 Hospede* buscarHospede(Quarto* quarto, int qtdQuartos, char* nome) {
 	for(int i = 0; i < qtdQuartos; i++) {
 		for(int j = 0; j < quarto[i].qtdHospede; j++) {
@@ -186,24 +166,16 @@ void editarHospede(Hospede* hospede) {
 	printf("Hospede atualizado com sucesso!\n");
 }
 
-void quartoVazio(Quarto* quarto) {
-	printf("Quartos vazios:\n");
-	for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
-		if(quarto[i].qtdHospede == 0) {
-			printf("%d | ", quarto[i].num);
-		} 
-	}
-	printf("\n");
-}
-
 void liberarQuarto(Quarto* quarto, int numQuarto) {
 	if(strcmp(quarto[numQuarto - 1].status, "Disponivel") == 0) {
 		printf("Quarto já está disponível.\n");
 	} else {
+		Hospede** hospede = &quarto[numQuarto - 1].hospede;
+
 		for(int i = 0; i < quarto[numQuarto - 1].qtdHospede; i++) {
-			quarto[numQuarto - 1].hospede[i].nome[0] = '\0';
+			hospede[i] = NULL;
 		}
-		
+
 		quarto[numQuarto - 1].qtdHospede = 0;
 		strcpy(quarto[numQuarto - 1].status, "Disponivel");
 
@@ -211,32 +183,55 @@ void liberarQuarto(Quarto* quarto, int numQuarto) {
 	}
 }
 
-void exibirQuartosOcupados(Quarto* quarto, int qtdQuartos) {
-	printf("Número de quartos ocupados:\n");
+
+void exibirHospedes(Hospede* hospede, int qtdHospedes) {
+	printf("Hospedes:\n\n");
+
+	for(int i = 0; i < qtdHospedes; i++) {
+		printf("%dº - %s\n", i + 1, hospede[i].nome);
+	}
+
+	printf("\n");
+}
+
+void exibirQuartosDisponiveis(Quarto* quarto, int qtdQuartos) {
+	printf("Quartos disponiveis:\n");
 	for(int i = 0; i < qtdQuartos; i++) {
-		if(strcmp(quarto[i].status, "Ocupado") == 0) {
-			printf("%d |", quarto[i].num);
+		if(strcmp(quarto[i].status, "Disponivel") == 0) {
+			printf("%d", quarto[i].num);
+			if(i < qtdQuartos - 1) printf(" - ");
 		}
 	}
+	printf("\n\n");
+}
+
+void exibirQuartosVazios(Quarto* quarto) {
+	printf("Quartos vazios:\n");
+	for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
+		if(quarto[i].qtdHospede == 0) {
+			printf("%d", quarto[i].num);
+			if(i < QTD_MAX_QUARTOS - 1) printf(" - ");
+		}
+	}
+	printf("\n\n");
+}
+
+void exibirQuartosOcupados(Quarto* quarto, int qtdQuartos, int* qtdQuartosOcupados) {
+	int aux = 1;
+
+	printf("Quartos ocupados:\n");
+	for(int i = 0; i < qtdQuartos; i++) {
+		if(strcmp(quarto[i].status, "Ocupado") == 0) {
+			if(!aux) printf(" - ");
+
+			printf("%d", quarto[i].num);
+			aux = 0, (*qtdQuartosOcupados)++;
+		}
+	}
+
 	printf("\n");
 }
 //--------------------------------------- FUNÇÕES PARA FINS DE DESENVOLVIMENTO ---------------------------------------//
-
-// Alocar quartos no arquivo (Aloca todos os quartos como disponivel e deleta os hospedes);
-void alocarQuartos(FILE* arquivo) {
-	arquivo = fopen(CAMINHO_ARQUIVO, "w");
-
-	if(arquivo == NULL) {
-		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
-		exit(1);
-	} else {
-		for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
-			fprintf(arquivo, "%d;Disponivel\n", i + 1);
-		}
-	}
-
-	fclose(arquivo);
-}
 
 // Exibe informações da struct Quarto;
 void exibirQuartos(Quarto* quarto, int qtdQuartos) {
@@ -254,6 +249,22 @@ void exibirQuartos(Quarto* quarto, int qtdQuartos) {
 
 		printf("\n====================\n\n");
 	}
+}
+
+// Alocar quartos no arquivo (Aloca todos os quartos como disponivel e deleta os hospedes);
+void alocarQuartos(FILE* arquivo) {
+	arquivo = fopen(CAMINHO_ARQUIVO, "w");
+
+	if(arquivo == NULL) {
+		printf("Erro ao abrir o arquivo. Encerrando o programa...\n");
+		exit(1);
+	} else {
+		for(int i = 0; i < QTD_MAX_QUARTOS; i++) {
+			fprintf(arquivo, "%d;Disponivel\n", i + 1);
+		}
+	}
+
+	fclose(arquivo);
 }
 
 //-------------------------------------------------------------------------------------------------------------------//
@@ -283,23 +294,14 @@ void configurarAmbiente() {
 
 	char* local = setlocale(LC_ALL, "");
 
-	printf("Configurando a localidade:\n\n");
-	printf("Localidade padrao do sistema: %s\n", local);
-
-	if(local != NULL && strcmp(local, "Portuguese_Brazil.1252") == 0) {
-		printf("Localidade ja esta configurada!\n\n");
-	} else {
+	if(local == NULL || strcmp(local, "Portuguese_Brazil.1252") != 0) {
 		#ifdef _WIN32
-		printf("Configurando a localidade para Portugues do Brasil...\n");
-		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "Portuguese"));
+		setlocale(LC_ALL, "Portuguese");
 		#elif __linux__
-		printf("Configurando a localidade para Portugues do Brasil...\n");
-		printf("Localidade configurada para %s com sucesso!\n\n", setlocale(LC_ALL, "pt_BR.UTF-8"));
+		setlocale(LC_ALL, "pt_BR.UTF-8");
 		#endif
 	}
+}
 
-	pausarTela();
-	}
-
-	//-------------------------------------------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------------------------------//
 

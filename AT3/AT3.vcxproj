@@ -133,14 +133,14 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\functions.h" />
-    <ClInclude Include="headers\types.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="linux.sh" />
     <None Include="windows.bat" />
     <None Include=".gitignore" />
     <None Include="guests.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\functions.h" />
+    <ClInclude Include="include\types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
